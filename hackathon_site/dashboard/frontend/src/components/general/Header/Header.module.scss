@@ -1,0 +1,49 @@
+@import "./../../../assets/abstracts/mixins";
+@import "./../../../assets/abstracts/variables";
+
+.header {
+    background-color: color(header);
+    width: calc(100% + 100px);
+    margin-top: -50px;
+    margin-bottom: 50px;
+
+    @include responsive(md-down) {
+        width: calc(100% + 50px);
+        margin-top: -25px;
+        margin-bottom: 25px;
+    }
+
+    &Toolbar {
+        justify-content: space-between;
+    }
+
+    &Logo {
+        display: flex;
+        &Img {
+            height: 30px;
+        }
+    }
+
+    &Drawer {
+        &Top {
+            width: 100%;
+            @include flexPosition($jusCon: flex-end);
+            background-color: color(light1);
+            padding: 8px 15px;
+            svg {
+                fill: color(grey);
+            }
+            @include responsive(sm-down) {
+                padding: 4px 15px;
+            }
+        }
+        &Hackathon {
+            padding: 30px 15px 20px;
+            border-bottom: 1px solid color(light2);
+            margin-bottom: 20px;
+            &Img {
+                height: 48px;
+            }
+        }
+    }
+}

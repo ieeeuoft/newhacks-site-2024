@@ -1,0 +1,110 @@
+@import "./../../assets/abstracts/variables";
+@import "./../../assets/abstracts/mixins";
+
+.inventory {
+    display: flex;
+    flex-direction: column;
+    max-width: 1800px;
+    width: 100%;
+
+    &Body {
+        display: flex;
+        margin-top: 30px;
+
+        &Toolbar {
+            @include flexPosition($jusCon: flex-end);
+            width: 100%;
+            margin-bottom: 25px;
+
+            &Div {
+                @include flexPosition($jusCon: space-between, $alIte: center);
+                width: auto;
+            }
+
+            &Search {
+                background-color: color(white);
+                margin-right: 8px;
+                width: 250px;
+            }
+
+            &Divider {
+                margin: 0 25px;
+            }
+
+            &Refresh {
+                @include flexPosition($jusCon: space-between, $alIte: center);
+                white-space: nowrap;
+            }
+        }
+
+        @include responsive(sm-down) {
+            &Toolbar {
+                flex-direction: column;
+                margin-bottom: 5px;
+
+                &Div {
+                    width: 100%;
+                }
+
+                &Div:last-child {
+                    margin: 10px 0;
+                }
+
+                &Divider {
+                    display: none;
+                }
+
+                &Refresh {
+                    margin-left: 0;
+                }
+            }
+        }
+
+        @include responsive(md-down) {
+            margin-top: 15px;
+
+            &Toolbar {
+                &Refresh {
+                    margin-left: 20px;
+                }
+
+                &Search {
+                    width: 100%;
+                }
+
+                &Div:nth-child(1) {
+                    width: 100%;
+                }
+            }
+        }
+    }
+
+    &FilterDrawer {
+        width: 280px;
+        flex-shrink: 0;
+        z-index: 1;
+        &Top {
+            width: 100%;
+            @include flexPosition($jusCon: space-between, $alIte: center);
+
+            background-color: color(light1);
+            padding: 8px 15px;
+            svg {
+                fill: color(grey);
+            }
+            @include responsive(sm-down) {
+                padding: 4px 15px;
+            }
+
+            > h2 {
+                @include responsive(md-down) {
+                    font-size: size(md) !important;
+                }
+            }
+        }
+    }
+
+    &LoadDivider {
+        margin: 30px 0;
+    }
+}

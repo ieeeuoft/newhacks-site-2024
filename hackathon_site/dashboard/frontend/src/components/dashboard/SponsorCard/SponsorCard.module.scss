@@ -1,0 +1,15 @@
+@import "./../../../assets/abstracts/mixins";
+@import "./../../../assets/abstracts/variables";
+
+.sponsors {
+    height: 100%;
+    width: 400px;
+    @include flexPosition($dir: column);
+    &Paper {
+        flex-grow: 1;
+        padding: 28px 0;
+        img {
+            height: 100%;
+        }
+    }
+}

@@ -1,0 +1,53 @@
+@import "./../../../assets/abstracts/mixins";
+@import "./../../../assets/abstracts/variables";
+
+.nav {
+    @include responsive(md-up) {
+        &FlexDiv {
+            display: inline-block;
+        }
+        &Btn,
+        &IconBtn,
+        &Active {
+            color: color(white);
+            &:hover {
+                background-color: rgba(355, 355, 355, 0.2);
+            }
+        }
+        &Btn,
+        &Active {
+            border-radius: 0;
+            padding: 20px 15px;
+        }
+        &Active {
+            color: color(blueLight);
+            border-bottom: 3px solid color(blueLight);
+            padding: 20px 15px 17px;
+        }
+        &IconBtn {
+            margin-left: 15px;
+        }
+    }
+
+    @include responsive(md-down) {
+        width: 100%;
+        height: 100%;
+        @include flexPosition($jusCon: space-between, $dir: column);
+        &Btn,
+        &Active {
+            width: 100%;
+            @include flexPosition($jusCon: flex-start);
+            padding: 13px 120px 13px 15px;
+            border-radius: 0;
+            svg {
+                margin-right: 30px;
+            }
+            &Logout {
+                padding-left: 70px;
+            }
+        }
+        &Active {
+            background-color: color(light1);
+        }
+    }
+}

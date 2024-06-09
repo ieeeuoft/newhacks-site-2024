@@ -1,0 +1,40 @@
+$colors: (
+    font: #222,
+    white: #fff,
+    primary: #1976d2,
+    secondary: #ffa000,
+    light: #b7dbff,
+    dark: #002f5e,
+    backgroundColor: #ddeeff,
+    error: #b00020,
+    success: #0b890b,
+    primaryOnHover: #08529c,
+    secondaryOnHover: #ce8100,
+    errorOnHover: #870000,
+    successOnHover: #1d7521,
+);
+
+$fonts: (
+    body: "Nunito",
+    header: "Roboto",
+);
+
+$font-sizes: (
+    xl: 20px,
+    lg: 18px,
+    md: 16px,
+    sm: 14px,
+    xs: 12px,
+);
+
+@function color($color-name) {
+    @return map-get($colors, $color-name); //(name of map, key)
+}
+
+@function font($fonts-name) {
+    @return map-get($fonts, $fonts-name); //(name of map, key)
+}
+
+@function size($size) {
+    @return map-get($font-sizes, $size); //(name of map, key)
+}

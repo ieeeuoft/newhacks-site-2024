@@ -1,0 +1,46 @@
+$colors: (
+    font: rgba(0, 0, 0, 0.84),
+    white: #fff,
+    primary: #2b7bbc,
+    secondary: #b00020,
+    light1: #ebf0ef,
+    light2: rgba(0, 0, 0, 0.04),
+    grey: #757575,
+    dark1: #11568e,
+    header: #0c3760,
+    footer: #222944,
+    backgroundC: #fafafa,
+    green: #43a047,
+    greenLight: #c1edc1,
+    orange: #ffa000,
+    orangeLight: #ffe3b4,
+    redLight: #f9e0e0,
+    blue: #4169e1,
+    blueLight: #c3e1ef,
+    purple: #800080,
+    purpleLight: #cec4f2,
+);
+
+$fonts: (
+    body: "Roboto",
+);
+
+$font-sizes: (
+    xl: 45px,
+    lg: 18px,
+    md: 16px,
+    sm: 14px,
+    xs: 12px,
+);
+
+@function color($color-name) {
+    @return map-get($colors, $color-name); //(name of map, key)
+}
+
+@function font($fonts-name) {
+    @return map-get($fonts, $fonts-name); //(name of map, key)
+}
+
+@function size($size) {
+    @return map-get($font-sizes, $size); //(name of map, key)
+}

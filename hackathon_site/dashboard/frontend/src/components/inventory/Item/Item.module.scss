@@ -1,0 +1,33 @@
+@import "./../../../assets/abstracts/mixins";
+@import "./../../../assets/abstracts/variables";
+
+.item {
+    &Box,
+    &Black,
+    &Pic {
+        width: 100%;
+    }
+
+    &Black {
+        object-fit: cover;
+        opacity: 0.2;
+    }
+
+    &TextBox {
+        padding: 10px;
+    }
+
+    &Grid {
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}
+
+.outOfStock {
+    color: color(secondary);
+}
+
+.inStock {
+    color: color(grey);
+}

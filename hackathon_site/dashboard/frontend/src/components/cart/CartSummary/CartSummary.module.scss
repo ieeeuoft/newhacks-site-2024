@@ -1,0 +1,14 @@
+@import "./../../../assets/abstracts/mixins";
+@import "./../../../assets/abstracts/variables";
+
+.qty {
+    @include flexPosition($jusCon: space-between);
+    padding: 10px 20px;
+}
+.msg {
+    padding: 20px;
+}
+.btn {
+    width: calc(100% - 40px);
+    margin: 0 20px;
+}
