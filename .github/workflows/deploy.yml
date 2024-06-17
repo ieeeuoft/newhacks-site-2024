@@ -1,0 +1,146 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - 'develop'
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  STACK_NAME: newhacks-site-2024
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      GITHUB_SHA_SHORT: ${{ steps.sha7.outputs.GITHUB_SHA_SHORT }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get short SHA
+        id: sha7
+        run: |
+          GITHUB_SHA_SHORT=$(echo ${{ github.sha }} | cut -c1-7)
+          echo "GITHUB_SHA_SHORT=${GITHUB_SHA_SHORT}" >> $GITHUB_ENV
+          echo "::set-output name=GITHUB_SHA_SHORT::${GITHUB_SHA_SHORT}"
+      - name: Build image
+        run: docker-compose -f deployment/docker-compose.ci.yml build
+      - name: Docker login
+        uses: docker/login-action@v1.10.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Push image
+        run: docker-compose -f deployment/docker-compose.ci.yml push
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [ build ]
+    environment:
+      name: production
+      url: https://newhacks.ca
+    defaults:
+      run:
+        working-directory: deployment
+    env:
+      GITHUB_SHA_SHORT: ${{ needs.build.outputs.GITHUB_SHA_SHORT }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+      - name: Install python dependencies
+        working-directory: hackathon_site
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: Install nodejs dependencies
+        working-directory: hackathon_site/event
+        run: yarn install
+      - name: Compile scss
+        working-directory: hackathon_site/event
+        run: yarn scss
+      - name: Collect static
+        working-directory: hackathon_site
+        env:
+          SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+        run: python manage.py collectstatic
+      - name: Build frontend
+        working-directory: hackathon_site/dashboard/frontend
+        run: |
+          yarn install
+          yarn run build
+      - name: Set environment variables in .env
+        run: |
+          echo 'DEBUG=0' >> .env
+          echo 'SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}' >> .env
+          echo 'DB_NAME=${{ secrets.DB_NAME }}' >> .env
+          echo 'DB_USER=${{ secrets.DB_USER }}' >> .env
+          echo 'DB_PASSWORD=${{ secrets.DB_PASSWORD }}' >> .env
+          echo 'DB_HOST=${{ secrets.DB_HOST }}' >> .env
+          echo 'DB_PORT=${{ secrets.DB_PORT }}' >> .env
+          echo 'EMAIL_HOST=${{ secrets.EMAIL_HOST }}' >> .env
+          echo 'EMAIL_PORT=${{ secrets.EMAIL_PORT }}' >> .env
+          echo 'EMAIL_HOST_USER=${{ secrets.EMAIL_HOST_USER }}' >> .env
+          echo 'EMAIL_HOST_PASSWORD=${{ secrets.EMAIL_HOST_PASSWORD }}' >> .env
+          echo 'EMAIL_FROM_ADDRESS=${{ secrets.EMAIL_FROM_ADDRESS }}' >> .env
+          echo 'REDIS_URI=${{ secrets.REDIS_URI }}' >> .env
+          echo 'RECAPTCHA_PUBLIC_KEY=${{ secrets.RECAPTCHA_PUBLIC_KEY }}' >> .env
+          echo 'RECAPTCHA_PRIVATE_KEY=${{ secrets.RECAPTCHA_PRIVATE_KEY }}' >> .env
+      - name: Transfer static files to the Swarm manager
+        uses: appleboy/scp-action@v0.1.1
+        with:
+          host: ${{ secrets.SWARM_MANAGER_IP }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          overwrite: true
+          # scp-action doesn't obey working-directory, runs at repo root
+          source: "hackathon_site/static/"
+          target: "/usr/src/${{ env.IMAGE_NAME }}"
+          strip_components: 1
+        env:
+          SCP_OPTIONS: -v
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -t ed25519 ${{ secrets.SWARM_MANAGER_IP }} >> ~/.ssh/known_hosts
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" >> ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+      - name: Transfer frontend files to server
+        uses: appleboy/scp-action@v0.1.1
+        with:
+          host: ${{ secrets.SWARM_MANAGER_IP }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          overwrite: true
+          # scp-action doesn't obey working-directory, runs at repo root
+          source: "hackathon_site/dashboard/frontend/build/"
+          target: "/usr/src/${{ env.IMAGE_NAME }}"
+          strip_components: 3
+      - name: Bring up deployment
+        env:
+          DOCKER_HOST: ssh://${{ secrets.SSH_USER }}@${{ secrets.SWARM_MANAGER_IP }}
+        run: |
+          echo "Logging in to GitHub packages..."
+          echo ${{ secrets.GITHUB_TOKEN }} | docker login ${{ env.REGISTRY }} -u ${{ github.actor }} --password-stdin
+          echo "Bringing up deployment..."
+          docker stack deploy --prune --with-registry-auth -c docker-compose.prod.yml ${{ env.STACK_NAME }}
+          echo "Waiting for deployment..."
+          sleep 30
+          chmod 777 docker-stack-wait.sh
+          ./docker-stack-wait.sh -t 300 ${{ env.STACK_NAME }}
+          echo "Running migrations..."
+          # TODO: It would be better to use docker-compose against the django service,
+          # but there is currently a bug in docker-compose preventing running services
+          # over an SSH host.
+          IMAGE=${REGISTRY}/${IMAGE_NAME}/django:${GITHUB_SHA_SHORT}
+          docker run --rm --env-file .env ${IMAGE} python manage.py migrate
+          echo "Deployment complete"

@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+  django:
+    image: ${REGISTRY}/${IMAGE_NAME}/django:${GITHUB_SHA_SHORT}
+    command: gunicorn hackathon_site.wsgi:application --bind 0.0.0.0:8000 --workers 5 --capture-output --access-logfile - --error-logfile -
+    ports:
+      - "8000:8000"
+    env_file: .env
+    volumes:
+      - /var/www/${IMAGE_NAME}/media/:/var/www/media/
+    deploy:
+      replicas: 1
+      update_config:
+        failure_action: rollback
+        order: start-first
+      restart_policy:
+        condition: on-failure
+    networks:
+      - newhacks-2023
+  redis:
+    image: redis:6-alpine
+    ports:
+      - "6379:6379"
+    deploy:
+      replicas: 1
+      update_config:
+        failure_action: rollback
+        order: start-first
+      restart_policy:
+        condition: on-failure
+    networks:
+      - newhacks-2023
+
+networks:
+  newhacks-2023:
+    driver: overlay

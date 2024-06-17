@@ -7,6 +7,10 @@ WORKDIR /usr/src/hackathon_site
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
+# Set time zone
+RUN cp /usr/share/zoneinfo/Canada/Eastern /etc/localtime \
+  && echo "America/Toronto" > /etc/timezone
+  
 # Install dependencies
 RUN apt-get update && apt-get install -y postgresql-client
 
