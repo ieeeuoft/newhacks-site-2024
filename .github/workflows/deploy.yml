@@ -76,8 +76,8 @@ jobs:
       - name: Build frontend
         working-directory: hackathon_site/dashboard/frontend
         run: |
-          yarn --ignore-engines install
-          yarn --ignore-engines run build
+          yarn install
+          yarn run build
       - name: Set environment variables in .env
         run: |
           echo 'DEBUG=0' >> .env
