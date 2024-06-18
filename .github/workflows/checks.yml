@@ -1,4 +1,4 @@
-name: CI/CD
+name: Checks
 
 on:
   pull_request_target:
@@ -13,7 +13,7 @@ jobs:
         working-directory: hackathon_site
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
         with:
           ref: ${{github.event.pull_request.head.ref}}
           repository: ${{github.event.pull_request.head.repo.full_name}}
@@ -42,14 +42,14 @@ jobs:
         working-directory: hackathon_site
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
         with:
           ref: ${{github.event.pull_request.head.ref}}
           repository: ${{github.event.pull_request.head.repo.full_name}}
-      - name: Use Node.js 16.x
-        uses: actions/setup-node@v3
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
         with:
-          node-version: '16.x'
+          node-version: '12.x'
       - name: Install dependencies
         run: yarn install
       - name: Formatting check
@@ -62,14 +62,14 @@ jobs:
         working-directory: hackathon_site/dashboard/frontend
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
         with:
           ref: ${{github.event.pull_request.head.ref}}
           repository: ${{github.event.pull_request.head.repo.full_name}}
-      - name: Use Node.js 16.x
-        uses: actions/setup-node@v3
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
         with:
-          node-version: '16.x'
+          node-version: '12.x'
       - name: Install dependencies
         run: yarn install
       - name: Formatting check
@@ -78,5 +78,3 @@ jobs:
         run: yarn run tsc
       - name: Tests
         run: yarn test --watchAll=false
-      - name: Build frontend
-        run: yarn run build
