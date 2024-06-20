@@ -106,6 +106,8 @@ jobs:
           source: "hackathon_site/static/"
           target: "/usr/src/${{ env.IMAGE_NAME }}"
           strip_components: 1
+        env:
+          SCP_OPTIONS: -v
       - name: Set up SSH
         run: |
           mkdir -p ~/.ssh
@@ -133,6 +135,7 @@ jobs:
           docker stack deploy --prune --with-registry-auth -c docker-compose.prod.yml ${{ env.STACK_NAME }}
           echo "Waiting for deployment..."
           sleep 30
+          chmod 777 docker-stack-wait.sh
           ./docker-stack-wait.sh -t 300 ${{ env.STACK_NAME }}
           echo "Running migrations..."
           # TODO: It would be better to use docker-compose against the django service,
