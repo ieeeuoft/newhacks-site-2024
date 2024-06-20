@@ -48,7 +48,7 @@ jobs:
       GITHUB_SHA_SHORT: ${{ needs.build.outputs.GITHUB_SHA_SHORT }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set up Python 3.8
         uses: actions/setup-python@v1
         with:
@@ -59,7 +59,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Use Node.js 16.x
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: '16.x'
       - name: Install nodejs dependencies
@@ -106,8 +106,6 @@ jobs:
           source: "hackathon_site/static/"
           target: "/usr/src/${{ env.IMAGE_NAME }}"
           strip_components: 1
-        env:
-          SCP_OPTIONS: -v
       - name: Set up SSH
         run: |
           mkdir -p ~/.ssh
