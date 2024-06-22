@@ -17,7 +17,7 @@ services:
       restart_policy:
         condition: on-failure
     networks:
-      - newhacks-2023
+      - newhacks-2024
   redis:
     image: redis:6-alpine
     ports:
@@ -30,8 +30,8 @@ services:
       restart_policy:
         condition: on-failure
     networks:
-      - newhacks-2023
+      - newhacks-2024
 
 networks:
-  newhacks-2023:
+  newhacks-2024:
     driver: overlay
