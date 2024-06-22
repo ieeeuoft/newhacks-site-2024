@@ -43,12 +43,32 @@ if DEBUG:
     EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
     HSS_URL = "http://localhost:3000/"
 else:
-    # NOTE: If you aren't ieee uoft, put your websites here
-    ALLOWED_HOSTS = ["ieee.utoronto.ca"]
-    CORS_ORIGIN_REGEX_WHITELIST = [
-        r"^https://ieee\.utoronto.ca:?\d*$",
+    ALLOWED_HOSTS = [
+        "newhacks.ca",
+        "www.newhacks.ca",
+        "hardware.newhacks.ca",
+        "www.hardware.newhacks.ca",
     ]
     HSS_URL = "https://hardware.newhacks.ca/"
+    CORS_ORIGIN_REGEX_WHITELIST = [
+        r"^https://(?:www\.)?newhacks\.ca",
+        r"^https://(?:www\.)?\w+\.newhacks\.ca",
+    ]
+    CSRF_COOKIE_DOMAIN = ".newhacks.ca"
+    CSRF_TRUSTED_ORIGINS = [
+        "newhacks.ca",
+        "www.newhacks.ca",
+        "hardware.newhacks.ca",
+        "www.hardware.newhacks.ca",
+    ]
+
+    EMAIL_HOST = os.environ.get("EMAIL_HOST", None)
+    EMAIL_PORT = os.environ.get("EMAIL_PORT", None)
+    EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", None)
+    EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", None)
+    EMAIL_USE_SSL = True
+    DEFAULT_FROM_EMAIL = os.environ.get("EMAIL_FROM_ADDRESS", "hello@newhacks.ca")
+    CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -92,6 +112,7 @@ INSTALLED_APPS = [
     "django_filters",
     "client_side_image_cropping",
     "captcha",
+    "qrcode",
     "dashboard",
     "registration",
     "event",
@@ -146,6 +167,7 @@ LOGIN_URL = reverse_lazy("event:login")
 LOGIN_REDIRECT_URL = reverse_lazy("event:dashboard")
 LOGOUT_REDIRECT_URL = reverse_lazy("event:index")
 
+MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -289,24 +311,56 @@ LOGGING = {
 }
 
 # Event specific settings
-HACKATHON_NAME = "CoolHacks"
-DEFAULT_FROM_EMAIL = "webmaster@localhost"
+HACKATHON_NAME = "NewHacks"
+DEFAULT_FROM_EMAIL = "hello@newhacks.ca"
 CONTACT_EMAIL = DEFAULT_FROM_EMAIL
 HSS_ADMIN_EMAIL = "hardware@newhacks.ca"
 
-REGISTRATION_OPEN_DATE = datetime(2020, 9, 1, tzinfo=TZ_INFO)
-REGISTRATION_CLOSE_DATE = datetime(2023, 9, 30, tzinfo=TZ_INFO)
-EVENT_START_DATE = datetime(2023, 10, 10, 10, 0, 0, tzinfo=TZ_INFO)
-EVENT_END_DATE = datetime(2023, 10, 11, 17, 0, 0, tzinfo=TZ_INFO)
-HARDWARE_SIGN_OUT_START_DATE = datetime(2020, 9, 1, tzinfo=TZ_INFO)
-HARDWARE_SIGN_OUT_END_DATE = datetime(2024, 9, 30, tzinfo=TZ_INFO)
+REGISTRATION_OPEN_DATE = datetime(2023, 9, 18, 0, 0, 0, tzinfo=TZ_INFO)
+REGISTRATION_CLOSE_DATE = datetime(2023, 10, 29, 23, 59, 0, tzinfo=TZ_INFO)
+EVENT_START_DATE = datetime(2023, 11, 4, 8, 0, 0, tzinfo=TZ_INFO)
+EVENT_END_DATE = datetime(2023, 11, 5, 17, 0, 0, tzinfo=TZ_INFO)
+HARDWARE_SIGN_OUT_START_DATE = datetime(2023, 10, 28, 23, 59, 0, tzinfo=TZ_INFO)
+HARDWARE_SIGN_OUT_END_DATE = EVENT_END_DATE
+
+RSVP_DAYS = 10
+
+# sign in times must be between EVENT_START_DATE and EVENT_END_DATE and in chronological order
+# the number of sign in times MUST MATCH the number of columns in UserActivityTable
+# TODO: modify sign in times when available
+SIGN_IN_TIMES = [
+    {
+        "name": "sign_in",
+        "description": "Hackathon Sign In",
+        "time": datetime(2023, 11, 4, 10, 0, 0, tzinfo=TZ_INFO),  # Nov 4th @ 9am
+    },
+    {
+        "name": "lunch1",
+        "description": "Lunch Day 1",
+        "time": datetime(2023, 11, 4, 12, 30, 0, tzinfo=TZ_INFO),  # Nov 4th @ 12:30pm
+    },
+    {
+        "name": "dinner1",
+        "description": "Dinner Day 1",
+        "time": datetime(2023, 11, 4, 18, 0, 0, tzinfo=TZ_INFO),  # Nov 4th @ 6pm
+    },
+    {
+        "name": "breakfast2",
+        "description": "Breakfast Day 2",
+        "time": datetime(2023, 11, 5, 8, 0, 0, tzinfo=TZ_INFO),  # Nov 5th @ 8am
+    },
+    {
+        "name": "lunch2",
+        "description": "Lunch Day 2",
+        "time": datetime(2023, 11, 5, 11, 45, 0, tzinfo=TZ_INFO),  # Nov 5th @ 11:45pm
+    },
+]
 
 # Registration user requirements
-MINIMUM_AGE = 14
+MINIMUM_AGE = 18
 
 # Registration settings
 ACCOUNT_ACTIVATION_DAYS = 7
-RSVP_DAYS = 7
 
 # Team requirements
 MIN_MEMBERS = 2
@@ -321,11 +375,11 @@ WAITLISTED_ACCEPTANCE_START_TIME = EVENT_START_DATE + timedelta(hours=1)
 FINAL_REVIEW_RESPONSE_DATE = REGISTRATION_CLOSE_DATE + timedelta(days=7)
 
 # Links
-PARTICIPANT_PACKAGE_LINK = "#"
+PARTICIPANT_PACKAGE_LINK = "https://docs.google.com/document/d/1AkinPac_KS9_wA9P7H-7wOBfJ5xgIciIGwpU3D1UGu0/edit?usp=sharing"
 
 # Note this is in the form (chat_room_name, chat_room_link)
 # Chat room name is such as the following: Slack, Discord
-CHAT_ROOM = ("Slack", "https://slack.com")
+CHAT_ROOM = ("Discord", "https://discord.gg/cqW93CMu")
 
 # Enable/Disable certain Features
 TEAMS = True
