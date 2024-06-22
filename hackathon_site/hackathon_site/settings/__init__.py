@@ -112,7 +112,6 @@ INSTALLED_APPS = [
     "django_filters",
     "client_side_image_cropping",
     "captcha",
-    "qrcode",
     "dashboard",
     "registration",
     "event",
