@@ -12,7 +12,13 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
 
         <!-- Google Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,700,900|Nunito:400,500,700,900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Sen:wght@400;700&display=swap" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"/>
+
+        <!-- Favicon -->
+        <link rel="icon" type="image/png" sizes="32x32" href="{{ static('event/images/favicon/favicon-32x32.png') }}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{{ static('event/images/favicon/favicon-16x16.png') }}">
+        <meta name="theme-color" content="#ffffff">
 
         <title>{% block title %}{{ hackathon_name }} {{ localtime(event_start_date).strftime("%Y") }}{% endblock %}</title>
         <link rel="stylesheet" type="text/css" href="{{ static('event/styles/css/styles.css') }}" />
@@ -21,9 +27,9 @@
         {% endblock %}
     </head>
     <body>
-        <nav class="navbar primaryColor" role="navigation">
+        <nav class="navbar {% block nav_background_color %}navbarScrolled primaryColor{% endblock %}" role="navigation">
             <div class="nav-wrapper container">
-                <a href="{{ url("event:index") }}"><img src="{{ static('event/images/logo.svg') }}" class="logoNav" alt="logo" /></a>
+                <a href="{{ url("event:index") }}"><img src="{{ static('event/images/logo.svg') }}" class="{% block nav_logo %}logoNav100{% endblock %}" alt="logo" /></a>
 
                 {% block nav %}
                     <ul class="right hide-on-med-and-down">

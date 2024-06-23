@@ -5,7 +5,7 @@
         {{ field }}
         {% if show_label %}
             {% if show_help_text_as_label %}
-                <label for="{{ field.id_for_label }}">{{ field.help_text }}</label>
+                <label for="{{ field.id_for_label }}">{{ field.help_text|safe or field.label }}</label>
             {% else %}
                 {{ field.label_tag() }}
             {% endif %}
@@ -46,7 +46,7 @@
 {% endmacro %}
 
 {% block body %}
-<div class="backgroundColorFormBase">
+<div class="ombreBackgroundDark3">
     <div class="container">
         <div class="section">
             <div class="loginDiv z-depth-3 row">
@@ -55,7 +55,7 @@
                     <div class="row col s12 formPadding" style="width: auto; margin-bottom: 0;">
                         {% block form_description %}{% endblock %}
                     </div>
-                    
+
                     <form class="col s12 flexColCenter formPadding"
                         {% if form_action %} action="{{ form_action }}" {% endif %}
                         method="{{ form_method if form_method else "post" }}"
@@ -65,7 +65,7 @@
                         <div class="row" style="width: 100%;">
                             {% block form_inputs %}{% endblock %}
                         </div>
-                        
+
                         {% block form_button %}{% endblock %}
                     </form>
                     <br />
