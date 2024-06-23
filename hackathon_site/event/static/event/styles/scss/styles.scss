@@ -1,10 +1,28 @@
 @import "mixins";
 @import "variables";
 
-// Note, Materialize classes are kebab and all the classes below are camel case
-// so you can distinguish its origin
-
 // General HTML stuff
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: font(header), sans-serif;
+}
+
+h1 {
+    margin-top: 150px;
+
+    @include responsive(lg-down) {
+        margin-top: 30px;
+    }
+
+    @include responsive(sm-down) {
+        margin-top: 50px;
+    }
+}
+
 p {
     margin: 0;
 }
@@ -21,18 +39,10 @@ h3 {
     text-transform: uppercase;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5 {
-    font-family: font(header);
-}
-
 body {
-    font-size: size(lg);
+    font-family: font(body), sans-serif;
+    font-size: 18px;
     color: color(font);
-    font-family: font(body);
 }
 
 strong {
@@ -40,147 +50,111 @@ strong {
 }
 // End of general HTML stuff
 
-// Colors
-.backgroundColor {
-    // Change the background colors of each page here!
-    &Landing {
-        background-color: color(backgroundColor);
-    }
-    &FormBase {
-        background-color: color(backgroundColor);
-    }
-    &Dashboard {
-        background-color: color(backgroundColor);
-    }
-
-    &Landing,
-    &FormBase,
-    &Dashboard {
-        min-height: 100vh;
-    }
-}
-
-.primaryColor {
-    background-color: color(primary) !important;
-}
-
-.secondaryColor {
-    background-color: color(secondary) !important;
-}
-
-.primaryText {
-    color: color(primary) !important;
-}
-
-.secondaryText {
-    color: color(secondary) !important;
-}
-
-.errorText {
-    color: color(error);
-}
-
-.successText {
-    color: color(success);
-}
-
-.colorBtn {
-    font-weight: bold !important;
-    text-align: center;
-    text-transform: uppercase;
-    color: color(font) !important;
-    background-color: color(secondary) !important;
-
-    &:hover {
-        background-color: color(secondaryOnHover) !important;
-    }
-}
-
-.redBtn {
-    font-weight: bold !important;
-    text-align: center;
-    text-transform: uppercase;
-    color: color(white) !important;
-    background-color: color(error) !important;
-
-    &:hover {
-        background-color: color(errorOnHover) !important;
-    }
-}
-.active {
-    color: color(secondary);
-}
-// End of colors
-
-// Formatting stuff
-.flexColCenter {
-    @include flexPosition($alIte: center, $dir: column);
-}
-
-.longText {
-    padding-right: 200px;
-
-    @include responsive(sm-down) {
-        padding-right: 0;
-    }
-}
-
-.hoverLink {
-    font-weight: 600;
-
-    &:hover {
-        text-decoration: underline;
-    }
-}
-
-.rowMarginPadding {
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    padding: 0 !important;
-}
-
-.formPadding {
-    @include responsive(sm-down) {
-        padding: 0 !important;
-    }
-}
-// End of formatting stuff
-
 // Navbar stuff
-.logoNav {
+.logoNav100 {
     height: 100%;
-    padding: 5px;
+    padding: 5px 0;
 }
 
-.logoNavSide {
-    padding: 30px;
-    height: 150px;
+.logoNav {
+    height: 200px;
+    transition: height 200ms linear;
+    padding: 10px 0;
 
-    a,
-    img {
-        height: 100% !important;
-        padding: 0 !important;
+    &Scrolled {
+        padding: 5px 0;
+        height: 100%;
+    }
 
-        &:hover {
-            background-color: transparent !important;
+    &Side {
+        padding: 30px;
+        height: 150px;
+
+        a,
+        img {
+            height: 100% !important;
+            padding: 0 !important;
+
+            &:hover {
+                background-color: transparent !important;
+            }
         }
+    }
+
+    @include responsive(lg-down) {
+        height: 64px;
+        padding: 5px 0;
+    }
+
+    @include responsive(md-down) {
+        height: 100%;
+    }
+}
+
+.sidenav {
+    background: linear-gradient(180deg, #1a093e 30%, #2f1e52 60%, #4b3676 80%);
+
+    li {
+        & > a {
+            color: #fff !important;
+        }
+
+        & > .colorBtn {
+            color: #000 !important;
+        }
+    }
+
+    li > a:hover,
+    nav ul a:hover {
+        background-color: rgba(0, 0, 0, 0.25);
     }
 }
 
 .navbar {
     position: sticky;
     top: 0;
-    z-index: 1100;
-}
+    background-color: transparent;
+    box-shadow: none;
+    transition: background-color 200ms linear, top 200ms ease-in-out;
+    z-index: 998;
 
-.sidenav-trigger {
-    margin-left: 0 !important;
+    &Scrolled {
+        background-color: rgba(39, 22, 72, 0.9);
+        box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12),
+            0 1px 5px 0 rgba(0, 0, 0, 0.2);
+    }
 }
 // End of navbar stuff
 
 // Landing section
+#landing {
+    position: relative;
+    z-index: 2;
+}
+
+.purpleLanding {
+    background-image: url("../../images/purple_landing.svg");
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+    background-position: right top;
+    padding: 30px 0 50px;
+    margin-top: -64px;
+
+    @media only screen and (min-width: 2600px) {
+        background-position: left top;
+    }
+
+    @include responsive(sm-down) {
+        background-image: url("../../images/purple_landing_mobile.svg");
+        background-position: center bottom;
+        padding: 0 0 220px;
+        margin-top: -56px;
+    }
+}
+
+// Landing section
 .landingImg {
-    @include flexPosition($jusCon: center, $alIte: center);
+    @include flexPosition($jusCon: center);
 
     img {
         width: 100%;
@@ -193,13 +167,30 @@ strong {
 // End of landing section
 
 // "About" section
-#aboutText {
-    p {
-        margin: 20px 0;
+#about {
+    position: relative;
+    z-index: 2;
+
+    @include responsive(sm-down) {
+        margin-top: -100px;
     }
 }
+
+.aboutText p {
+    margin: 20px 0;
+}
+
+.skylineImg {
+    position: absolute;
+    bottom: -5px;
+    right: 0;
+    width: 100%;
+}
+
 .countdown {
-    @include flexPosition($jusCon: center, $alIte: center);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     &Days {
         margin-top: 20px;
@@ -213,11 +204,14 @@ strong {
         font-weight: bold;
         font-size: 106px;
         text-align: center;
+        color: color(font);
+        font-family: font(header), sans-serif;
+        display: flex;
+        flex-direction: column;
         background-color: color(secondary);
         @include flexPosition($dir: column);
         margin: 0 5px;
         padding: 0 !important;
-        font-family: font(header);
     }
 
     &WhiteLine {
@@ -240,7 +234,7 @@ strong {
     margin: 10px 0 30px;
 
     p {
-        font-size: size(xl);
+        font-size: 20px;
         margin: 0;
     }
 
@@ -255,7 +249,7 @@ strong {
 
     @include responsive(md-down) {
         p {
-            font-size: size(lg);
+            font-size: 18px;
         }
         &Time {
             width: 70px;
@@ -293,9 +287,10 @@ strong {
 // End of "Hackathon stats" section
 
 // "FAQ" section
+
 .collapsible .active {
     // color: inherit;
-    color: color(primary);
+    color: color(white);
 }
 
 .active .collapsible-header {
@@ -309,8 +304,14 @@ strong {
     box-shadow: none;
     margin: 0;
 }
+
 .collapsible-header {
     background-color: transparent;
+    color: color(white);
+}
+
+.collapsible-body {
+    color: color(light);
 }
 
 // End of "FAQ" section
@@ -339,6 +340,22 @@ strong {
     }
 }
 // End of video section
+
+// Past projects section
+#past-projects {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 40px;
+
+    a {
+        color: #dad1e9;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+}
+// End of past projects section
 
 // Carousel section
 .carousel {
@@ -370,7 +387,7 @@ strong {
             width: 100%;
             // Manipulate the filter to change the color of the icon.
             // e.g. invert(0) is black and invert(1) is white
-            filter: invert(1);
+            filter: invert(0);
         }
 
         &:hover {
@@ -380,11 +397,67 @@ strong {
 }
 // End of section
 
+// Colors
+.primaryColor {
+    background-color: color(primary);
+}
+
+.secondaryColor {
+    background-color: color(secondary) !important;
+}
+
+.primaryText {
+    color: color(primary);
+}
+
+.secondaryText {
+    color: color(secondary);
+}
+
+.darkText {
+    color: color(font);
+}
+
+.lightText {
+    color: color(light);
+}
+
+.colorBtn {
+    font-weight: bold !important;
+    text-align: center;
+    text-transform: uppercase;
+    color: color(font) !important;
+    font-family: font(header), sans-serif;
+    background-color: color(secondary);
+
+    &:hover,
+    &:focus {
+        background-color: #d2a300 !important;
+    }
+}
+
+.redBtn {
+    font-weight: bold !important;
+    text-align: center;
+    text-transform: uppercase;
+    color: #f3c7c7 !important;
+    background-color: #b40000 !important;
+
+    &:hover {
+        background-color: #870000 !important;
+    }
+}
+
+.active {
+    color: color(secondary);
+}
+// End of colors
+
 // Login stuff
 .login {
     &Div {
         display: flex;
-        background-color: color(white);
+        background-color: #fff;
         border-top: solid 10px color(secondary);
         border-radius: 3px 3px 0 0;
         padding: 50px 30px 30px;
@@ -406,9 +479,10 @@ strong {
     }
 
     &Link {
-        @include flexPosition($jusCon: center, $alIte: center);
+        display: flex;
+        justify-content: center;
         margin: 10px 0 15px;
-        font-size: size(sm);
+        font-size: size(md);
         padding: 0 !important;
 
         i {
@@ -423,17 +497,20 @@ strong {
         text-align: center;
         text-transform: uppercase;
         margin: 0 auto 30px;
+        color: color(dark);
         font-size: 50px;
     }
 
     &H2 {
         font-weight: normal;
+        color: color(dark);
         font-size: 30px;
         margin: 0 0 15px;
     }
 
     &H3 {
         font-weight: normal;
+        color: color(dark);
         font-size: 24px;
         text-transform: initial;
         margin: 0 0 10px;
@@ -448,7 +525,7 @@ strong {
             font-size: 24px;
         }
         &H3 {
-            font-size: size(xl);
+            font-size: 20px;
         }
     }
 
@@ -457,14 +534,18 @@ strong {
     }
 
     &FieldError {
-        font-size: size(xs);
-        color: color(error);
+        font-size: 12px;
+        color: #f44336;
         display: block;
     }
 
     &Error {
-        color: color(error);
+        color: #f44336;
         display: block;
+    }
+
+    &AddTopMargin {
+        margin-top: 9px;
     }
 }
 
@@ -499,8 +580,9 @@ strong {
 
 // Dashboard stuff
 .borderTopDiv {
-    background-color: color(white);
-    @include flexPosition($dir: column);
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
     border-top: solid 10px color(secondary);
     border-radius: 3px 3px 0 0;
     padding: 40px 30px 30px;
@@ -524,3 +606,82 @@ strong {
     }
 }
 // End of dashboard stuff
+
+// Background colors
+.ombreBackgroundLight {
+    position: relative;
+    background: color(secondary);
+    background: linear-gradient(
+        180deg,
+        color(secondary) 25%,
+        rgba(230, 186, 98, 1) 40%,
+        rgba(139, 83, 102, 1) 60%,
+        #3e2c64 85%
+    );
+
+    @include responsive(md-down) {
+        background: linear-gradient(
+            180deg,
+            color(secondary) 15%,
+            rgba(230, 186, 98, 1) 20%,
+            rgba(139, 83, 102, 1) 40%,
+            #3e2c64 65%
+        );
+    }
+}
+
+.ombreBackgroundDark1 {
+    background: linear-gradient(180deg, color(dark) 40%, #0c0618 90%);
+    margin-top: -10px;
+}
+
+.ombreBackgroundDark2 {
+    background: linear-gradient(180deg, #0d061a 2%, #0a011a 45%);
+    margin-top: -10px;
+}
+
+.ombreBackgroundDark3 {
+    background: linear-gradient(180deg, #271648 60%, #0c0618 90%);
+    min-height: 100vh;
+}
+// End of background colors
+
+// Formatting stuff
+.flexColCenter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.longText {
+    padding-right: 200px;
+
+    @include responsive(sm-down) {
+        padding-right: 0;
+    }
+}
+
+.hoverLink {
+    font-weight: 600;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.rowMarginPadding {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 0 !important;
+}
+
+.formPadding {
+    @include responsive(sm-down) {
+        padding: 0 !important;
+    }
+}
+
+.marginTop0 {
+    margin-top: 0 !important;
+}
+// End of formatting stuff
