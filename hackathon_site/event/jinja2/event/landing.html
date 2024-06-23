@@ -8,14 +8,11 @@
 </script>
 {% endblock %}
 
-{% block nav_logo %}logoNav{% endblock %}
-{% block nav_background_color %}{% endblock %}
-
 {% block nav_links %}
     <li><a href="#about">About</a></li>
     <li><a href="#schedule">Schedule</a></li>
     <li><a href="#faq">FAQ</a></li>
-     <li><a href="#sponsors">Sponsors</a></li>
+    <li><a href="#sponsors">Sponsors</a></li>
     <li><a href="#contact">Contact</a></li>
     {% if request.user.is_authenticated %}
         <li><a href="{{ url("event:dashboard") }}">Dashboard</a></li>
@@ -23,169 +20,141 @@
 {% endblock %}
 
 {% block body %}
-<!-- MLH Badge -->
-<a id="mlh-trust-badge" style="display:block;max-width:100px;min-width:60px;position:fixed;right:50px;top:0;width:10%;z-index:10000" href="https://mlh.io/na?utm_source=na-hackathon&utm_medium=TrustBadge&utm_campaign=2024-season&utm_content=white" target="_blank"><img src="https://s3.amazonaws.com/logged-assets/trust-badge/2025/mlh-trust-badge-2025-white.svg" alt="Major League Hacking 2025 Hackathon Season" style="width:100%"></a>
-<div class="ombreBackgroundLight">
-    <div class="section purpleLanding" id="landing">
-        <div class="container">
-            <br /><br />
-            <h1 class="header white-text">NewHacks</h1>
-            <div class="row">
-                <h4 class="header s12 white-text longText">
-                    24 Hour Beginner Friendly Hackathon
-                </h4>
-            </div>
-            <div class="row">
-                <h5 class="white-text">University of Toronto, Bahen Centre for Information Technology</h5>
-                <h5 class="white-text">
-                    {# Update this logic if your event ends in a different month or year #}
-                    {{ localtime(event_start_date).strftime("%B %-d") }}-{{ localtime(event_end_date).strftime("%-d, %Y") }}
-                </h5>
-            </div>
-            <div class="row">
-                {% if request.user.is_authenticated %}
-                    {% if application is none and is_registration_open() %}
-                        <a href="{{ url("registration:application") }}" class="btn-large waves-effect waves-light colorBtn">Continue Application</a>
-                    {% else %}
-                        <a href="{{ url("event:dashboard") }}" class="btn-large waves-effect waves-light colorBtn">Go to Dashboard</a>
+<div class="backgroundColorLanding">
+    <div class="container">
+        <div class="section row" id="landing">
+            <div class="col container s12 m7">
+                <h1 class="row header">Hackathon Name</h1>
+                <div class="row">
+                    <h4 class="header s12">Subtitle</h4>
+                </div>
+                <div class="row">
+                    <h5>Location</h5>
+                    <h5>
+                        {# Update this logic if your event ends in a different month or year #}
+                        {{ localtime(event_start_date).strftime("%B %-d") }}-{{ localtime(event_end_date).strftime("%-d, %Y") }}
+                    </h5>
+                </div>
+                <div class="row">
+                    {% if request.user.is_authenticated %}
+                        {% if application is none and is_registration_open() %}
+                            <a href="{{ url("registration:application") }}" class="btn-large waves-effect waves-light colorBtn">Continue Application</a>
+                        {% else %}
+                            <a href="{{ url("event:dashboard") }}" class="btn-large waves-effect waves-light colorBtn">Go to Dashboard</a>
+                        {% endif %}
+                    {% elif is_registration_open() %}
+                        <a href="{{ url("registration:signup") }}" class="btn-large waves-effect waves-light colorBtn">Apply</a>
                     {% endif %}
-                {% elif is_registration_open() %}
-                    <a href="{{ url("registration:signup") }}" class="btn-large waves-effect waves-light colorBtn">Apply</a>
-                {% endif %}
+                </div>
+                <br /><br />
             </div>
-            <br /><br />
+            <div class="col s12 m5 landingImg">
+                <img src="{{ static('event/images/landing.svg') }}" alt="landing"/>
+            </div>
         </div>
     </div>
 
     <div class="container">
         <div class="section scrollspy" id="about">
             <div class="row">
-                <div class="col m12 l7 aboutText" id="aboutText">
-                    <h3 class="center white-text">About us</h3>
+                <div class="col m12 l7" id="aboutText">
+                    <h3 class="center">About us</h3>
 
-                    <p class="center white-text">
-                        Join 300 hackers at NewHacks to transform your ideas into reality! In this 24-hour event, you and your team will build a project from scratch through the integration of hardware and software. Afterwards, you will present your project to a panel of industry judges to compete for prizes. This year's themes are Education, Life Convenience and Location/Maps!
+                    <p class="center">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                        ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+                        occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                     </p>
-                    <p class="center white-text">
-                        Our hackathon is designed for anyone to participate, regardless of whether or not you have a technical background. To help facilitate your learning experience, we will host workshops throughout the event featuring speakers from some of the top companies in the industry. This hackathon will be in-person at the University of Toronto where we will provide various hardware, tools and equipment for you and your team to use!
+                    <p class="center">
+                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto
+                        beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi
+                        nesciunt.
                     </p>
                 </div>
 
                 <div class="col m12 l5 flexColCenter" id="countdown">
-                    <h3 class="center white-text" id="countdownTitle">Registration Opens In</h3>
+                    <h3 class="center" id="countdownTitle"></h3>
                     <div class="countdown">
-                        <div class="col countdownNum secondaryColor">
+                        <div class="col countdownNum">
                             <div class="countdownWhiteLine"></div>
                             <p id="day1"></p>
                         </div>
-                        <div class="col countdownNum secondaryColor">
+                        <div class="col countdownNum">
                             <div class="countdownWhiteLine"></div>
                             <p id="day2"></p>
                         </div>
-                        <div class="col countdownNum secondaryColor">
+                        <div class="col countdownNum">
                             <div class="countdownWhiteLine"></div>
                             <p id="day3"></p>
                         </div>
                     </div>
-                    <div class="col white-text center countdownDays" id="countdownUnit">Days</div>
+                    <div class="col center countdownDays" id="countdownUnit">Days</div>
                 </div>
             </div>
         </div>
     </div>
     <br /><br />
-    <img class="skylineImg" src="{{ static('event/images/skyline.svg') }}" alt="skyline" />
-</div>
 
-<div class="ombreBackgroundDark1">
     <div class="container">
         <div class="section scrollspy" id="schedule">
             <div class="row schedule">
                 <div class="m12 center">
-                    <h3 class="center white-text">Schedule</h3>
+                    <h3 class="center">Schedule</h3>
                 </div>
                 <div class="col s12 m7 l6">
+                    <h4 class="center">Saturday</h4>
+
                     <div class="scheduleRow">
-                        <p class="lightText scheduleTime"></p>
-                        <h4 class="white-text" style="text-align:center; flex-grow:1;">
-                            Saturday
-                        </h4>
+                        <p class="scheduleTime">9AM</p>
+                        <p>Participant Registration</p>
                     </div>
                     <div class="scheduleRow">
-                        <p class="lightText scheduleTime">9AM</p>
-                        <p class="white-text" style="text-align:center; flex-grow:1;">
-                            Participant Registration
-                        </p>
+                        <p class="scheduleTime">10AM</p>
+                        <p>Opening Ceremonies</p>
                     </div>
                     <div class="scheduleRow">
-                        <p class="lightText scheduleTime">10AM</p>
-                        <p class="white-text" style="text-align:center; flex-grow:1;">Opening Ceremonies</p>
+                        <p class="scheduleTime">11AM</p>
+                        <p><strong>Hacking Begins</strong></p>
                     </div>
                     <div class="scheduleRow">
-                        <p class="lightText scheduleTime">11AM</p>
-                        <p class="white-text" style="text-align:center; flex-grow:1;">
-                            <strong>Hacking Begins!</strong>
-                        </p>
-                    </div>
-                    <div class="scheduleRow">
-                        <p class="lightText scheduleTime">12PM</p>
-                        <p class="white-text" style="text-align:center; flex-grow:1;">
-                            Lunch
-                        </p>
-                    </div>
-                    <div class="scheduleRow">
-                        <p class="lightText scheduleTime">2PM</p>
-                        <p class="white-text" style="text-align:center; flex-grow:1;">Workshops & Activities</p>
-                    </div>
-                    <div class="scheduleRow">
-                        <p class="lightText scheduleTime">6PM</p>
-                        <p class="white-text" style="text-align:center; flex-grow:1;">
-                            Dinner
-                        </p>
+                        <p class="scheduleTime">Various</p>
+                        <p>Workshops & Activities</p>
                     </div>
                 </div>
 
                 <div class="col s12 m5 l6">
+                    <h4 class="center">Sunday</h4>
+
                     <div class="scheduleRow">
-                        <p class="lightText scheduleTime"></p>
-                        <h4 class="white-text" style="text-align:center; flex-grow:1;">
-                            Sunday
-                        </h4>
+                        <p class="scheduleTime">11AM</p>
+                        <p><strong>Hacking Ends!</strong></p>
                     </div>
                     <div class="scheduleRow">
-                        <p class="lightText scheduleTime">8AM</p>
-                        <p class="white-text" style="text-align:center; flex-grow:1;">
-                            Breakfast
-                        </p>
+                        <p class="scheduleTime">12PM</p>
+                        <p>Judging</p>
                     </div>
                     <div class="scheduleRow">
-                        <p class="lightText scheduleTime">11AM</p>
-                        <p class="white-text" style="text-align:center; flex-grow:1;"><strong>Hacking Ends!</strong></p>
+                        <p class="scheduleTime">3PM</p>
+                        <p>Closing Ceremonies</p>
                     </div>
                     <div class="scheduleRow">
-                        <p class="lightText scheduleTime">11AM</p>
-                        <p class="white-text" style="text-align:center; flex-grow:1;">Lunch</p>
-                    </div>
-                    <div class="scheduleRow">
-                        <p class="lightText scheduleTime">1PM</p>
-                        <p class="white-text" style="text-align:center; flex-grow:1;">Judging</p>
-                    </div>
-                    <div class="scheduleRow">
-                        <p class="lightText scheduleTime">4PM</p>
-                        <p class="white-text" style="text-align:center; flex-grow:1;">Closing Ceremonies</p>
+                        <p class="scheduleTime">4PM</p>
+                        <p>End</p>
                     </div>
                 </div>
             </div>
-            <!-- <div class="m12 center"> -->
-                <!-- <a class="btn-large waves-effect waves-light colorBtn" href="https://docs.google.com/document/d/1XkaEhdXXOQnpsJTQ_Qh7Fh4FUTAa-yp2jdOGXuQ9fQE/edit?usp=sharing" rel="noopener" target="_blank">Full schedule</a> -->
-            <!-- </div> -->
+            <div class="m12 center">
+                <a href="#" class="btn-large waves-effect waves-light colorBtn" rel="noopener" target="_blank">Full schedule</a>
+            </div>
         </div>
     </div>
     <br /><br />
+
     <div class="container">
         <div class="section scrollspy" id="faq">
             <div class="row">
                 <div class="col s12 m12 center">
-                    <h3 class="center white-text">FAQ</h3>
+                    <h3 class="center">FAQ</h3>
                 </div>
                 <div class="col s12 m6">
                     <ul class="collapsible">
@@ -194,62 +163,25 @@
                                 What is a hackathon?
                             </div>
                             <div class="collapsible-body">
-                                <span>A hackathon is a sprint-like design event wherein computer programmers and others collaborate intensively on software projects.</span>
+                                <span>A hackathon is a big bonanza where people from everyone doing everything come together to create projects together with the newest and most exciting tech.</span>
                             </div>
                         </li>
                         <li>
                             <div class="collapsible-header">
-                                Where is NewHacks taking place?
+                                How much does it cost?
                             </div>
                             <div class="collapsible-body">
-                                <span> NewHacks is taking place at UofT in the <a href="https://goo.gl/maps/4whMmQCXXhdS1vzu9">Bahen Centre for Information Technology</a>. As a hacker, please be sure to sign-in in the atrium (located at the front doors facing St.George St.) of Bahen Centre. </span>
+                                <span>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span>
                             </div>
                         </li>
                         <li>
                             <div class="collapsible-header">
-                                Who can join?
-                            </div>
-                            <div class="collapsible-body">
-                                <span>
-                                    Our hackathon is open to high-school or post-secondary students 18 years or older.
-                                </span>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="collapsible-header">
-                                I don't have a team, what do I do?
-                            </div>
-                            <div class="collapsible-body">
-                                <span>All teams competing must have 3 or 4 members, but you do not need a full team to apply. We have a team formation channel on Discord as well as a team formation event scheduled before hacking starts, so you can connect with other participants that don’t have a team yet.</span>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="collapsible-header">
-                                How do I apply with a team?
+                                When can I expect to hear back after I applied?
                             </div>
                             <div class="collapsible-body">
                                 <span>
-                                    You only need to fill out your individual application, receive an acceptance, and form a team with other accepted hackers. Teams are not required in advance; you're welcome to form a team with other hackers on the first day of the event! When you demo, you will provide the names of all of your team members.
-                                </span>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="collapsible-header">
-                                What if I have no experience? Can I still come?
-                            </div>
-                            <div class="collapsible-body">
-                                <span>
-                                    Yes! NewHacks is for everyone, especially for beginners. You will have the opportunity to learn technical skills from industry mentors. Also, if you ever get stuck on your project just ask one of the mentors!
-                                </span>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="collapsible-header">
-                                How much does it cost to participate?
-                            </div>
-                            <div class="collapsible-body">
-                                <span>
-                                    NewHacks is an event for new and inexperienced hackers that has no entry fee. It is your choice If you would like to buy and bring your own hardware and equipment to the event. For those who do not already have there own hardware and equipment and do not want to buy it, equipment will be available at the event for borrowing, however must be returned at the end of NewHacks.
+                                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+                                    occaecat cupidatat non proiden.
                                 </span>
                             </div>
                         </li>
@@ -260,63 +192,35 @@
                     <ul class="collapsible">
                         <li>
                             <div class="collapsible-header">
-                                Can I keep what I make?
+                                Who can apply? What if I have no experience?
                             </div>
                             <div class="collapsible-body">
                                 <span>
-                                    If you borrow equipment during the event, the equipment must be disassembled and returned. If you bring your own equipment and hardware to the event, of course you can bring it home.
+                                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto
+                                    beatae vitae dicta sunt explicabo
                                 </span>
                             </div>
                         </li>
                         <li>
                             <div class="collapsible-header">
-                                When is the deadline to apply?
+                                What equipment and support will be provided?
                             </div>
                             <div class="collapsible-body">
                                 <span>
-                                    Applications open on {{ localtime(registration_open_date).strftime('%B %-dth') }} and close on {{ localtime(registration_close_date).strftime('%B %dth at %H:%M, %Y') }}. Acceptances will be internally decided on a rolling basis, so apply early to maximize your chances of getting accepted!
+                                    Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi
+                                    nesciunt.
                                 </span>
                             </div>
                         </li>
                         <li>
                             <div class="collapsible-header">
-                                When can I expect to hear back?
+                                How do hackathons work?
                             </div>
                             <div class="collapsible-body">
                                 <span>
-                                    Acceptances will be sent out on a rolling basis, so apply early!
+                                    Sunt in culpa qui officia deserunt mollit anim id est laborum.
                                 </span>
                             </div>
-                        </li>
-                        <li>
-                            <div class="collapsible-header">
-                                What is the minimum and maximum size of a team?
-                            </div>
-                            <div class="collapsible-body">
-                                <span>
-                                    To compete you must be in a team of 3 or 4 members including yourself.
-                                </span>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="collapsible-header">
-                                Is this hackathon in-person?
-                            </div>
-                            <div class="collapsible-body">
-                                <span>
-                                    Yes, this hackathon will be hosted completely in-person at the University of Toronto.
-                                </span>
-                            </div>
-                            <li>
-                                <div class="collapsible-header">
-                                    Do we need to have any hardware/software to participate?
-                                </div>
-                                <div class="collapsible-body">
-                                    <span>
-                                        Nope! Any equipment you need to use, you can borrow using our <a href="https://hardware.newhacks.ca">hardware signout site</a>
-                                    </span>
-                                </div>
-                            </li>
                         </li>
                     </ul>
                 </div>
@@ -324,71 +228,108 @@
         </div>
     </div>
     <br /><br />
-</div>
-<div class="ombreBackgroundDark2">
-    <div class="container section scrollspy" id="sponsors">
-        <div class="row">
-            <h3 class="center white-text">Sponsors</h3>
 
-            <!-- Make sure to adjust sponsor logo size based on tier -->
-
-            <div class="row sponsorImgs">
-<!-- {#              <a href="https://gatik.ai/" class="col m8 s6 offset-m2 offset-s3" rel="noopener" target="_blank"><img src="{{ static('event/images/sponsors/Gatik.svg') }}" alt="gatik" /></a>#}
-                <a href="https://www.synopsys.com/" class="col m4 s4 offset-m4 offset-s4" rel="noopener" target="_blank"><img src="{{ static('event/images/sponsors/synopsys.png') }}" alt="synopsys" /></a>
-                <a href="https://www.intel.ca/" class="col m4 s4 offset-m4 offset-s4" rel="noopener" target="_blank"><img src="{{ static('event/images/sponsors/intel.svg') }}" alt="intel" /></a>
-                <a href="https://mlh.io/" class="col m2 s4 offset-m5 offset-s4" rel="noopener" target="_blank"><img src="{{ static('event/images/sponsors/mlh-logo-white.svg') }}" alt="mlh" /></a>
-                <a href="https://www.echo3d.co/" class="col m2 s4 offset-m5 offset-s4" rel="noopener" target="_blank"><img src="{{ static('event/images/sponsors/echo3d.png') }}" alt="echo3d" /></a>
-                <a href="https://www.engineering.utoronto.ca/" class="col m8 s6 offset-m2 offset-s3" rel="noopener" target="_blank"><img src="{{ static('event/images/sponsors/uofteng.svg') }}" alt="uoftengineering" /></a>
-                <a href="https://studentlife.utoronto.ca/program/student-initiative-fund/" class="col m2 s3 offset-m5 offset-s4" rel="noopener" target="_blank"><img src="{{ static('event/images/sponsors/studentlife.svg') }}" alt="studentlife" /></a> -->
+    <div class="container">
+        <div class="section scrollspy" id="sponsors">
+            <div class="row">
+                <h3 class="center">Sponsors</h3>
+                <div class="row sponsorImgs">
+                    <!-- Platinum -->
+                    <a href="https://www.google.com/" class="col s6 center" rel="noopener" target="_blank"><img src="{{ static('event/images/sponsors/sponsor.svg') }}" alt="sponsor-name"/></a>
+                    <a href="https://www.google.com/" class="col s6 center" rel="noopener" target="_blank"><img src="{{ static('event/images/sponsors/sponsor.svg') }}" alt="sponsor-name"/></a>
+                    <br />
+                    <!-- Gold -->
+                    <a href="https://www.google.com/" class="col s4 center" rel="noopener" target="_blank"><img src="{{ static('event/images/sponsors/sponsor.svg') }}" alt="sponsor-name"/></a>
+                    <a href="https://www.google.com/" class="col s4 center" rel="noopener" target="_blank"><img src="{{ static('event/images/sponsors/sponsor.svg') }}" alt="sponsor-name"/></a>
+                    <a href="https://www.google.com/" class="col s4 center" rel="noopener" target="_blank"><img src="{{ static('event/images/sponsors/sponsor.svg') }}" alt="sponsor-name"/></a>
+                    <br />
+                    <!-- Silver -->
+                    <a href="https://www.google.com/" class="col s3 center" rel="noopener" target="_blank"><img src="{{ static('event/images/sponsors/sponsor.svg') }}" alt="sponsor-name"/></a>
+                    <a href="https://www.google.com/" class="col s3 center" rel="noopener" target="_blank"><img src="{{ static('event/images/sponsors/sponsor.svg') }}" alt="sponsor-name"/></a>
+                    <a href="https://www.google.com/" class="col s3 center" rel="noopener" target="_blank"><img src="{{ static('event/images/sponsors/sponsor.svg') }}" alt="sponsor-name"/></a>
+                    <a href="https://www.google.com/" class="col s3 center" rel="noopener" target="_blank"><img src="{{ static('event/images/sponsors/sponsor.svg') }}" alt="sponsor-name"/></a>
+                    <br />
+                    <!-- Bronze -->
+                    <a href="https://www.google.com/" class="col s2 center" rel="noopener" target="_blank"><img src="{{ static('event/images/sponsors/sponsor.svg') }}" alt="sponsor-name"/></a>
+                    <a href="https://www.google.com/" class="col s2 center" rel="noopener" target="_blank"><img src="{{ static('event/images/sponsors/sponsor.svg') }}" alt="sponsor-name"/></a>
+                    <a href="https://www.google.com/" class="col s2 center" rel="noopener" target="_blank"><img src="{{ static('event/images/sponsors/sponsor.svg') }}" alt="sponsor-name"/></a>
+                    <a href="https://www.google.com/" class="col s2 center" rel="noopener" target="_blank"><img src="{{ static('event/images/sponsors/sponsor.svg') }}" alt="sponsor-name"/></a>
+                    <a href="https://www.google.com/" class="col s2 center" rel="noopener" target="_blank"><img src="{{ static('event/images/sponsors/sponsor.svg') }}" alt="sponsor-name"/></a>
+                    <a href="https://www.google.com/" class="col s2 center" rel="noopener" target="_blank"><img src="{{ static('event/images/sponsors/sponsor.svg') }}" alt="sponsor-name"/></a>
+                    <br />
+                </div>
+                <p class="center">
+                    If you would like to sponsor us, feel free to reach out:
+                    <a href="mailto:{{ contact_email }}" class="hoverLink">{{ contact_email }}</a>
+                </p>
             </div>
-
-            <div style="line-height: 2.5">
-                <a class="hoverLink lightText" href="http://mlh.io/code-of-conduct" target="_blank" rel="noreferrer noopoener">
-                    <p class ="center">
-                        MLH Code of Conduct
-                    </p>
-                </a>
-            </div>
-
-            <p class="center white-text">
-                If you'd like to sponsor us, feel free to reach out:
-                <a href="mailto:business@ieee.utoronto.ca" class="hoverLink lightText">business@ieee.utoronto.ca</a>
-            </p>
         </div>
     </div>
-    <div class="container section scrollspy" id="past-projects">
-        <p class="center white-text">Want to see past projects? Check out our <a href="https://newhacks-2021.devpost.com/">devpost</a></p>
+
+    <div class="container">
+        <div class="section">
+            <div class="row">
+                <div class="col m12">
+                    <h3 class="center">2020 Hackathon stats</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="stat col m3 s6">
+                    <h4 class="stat-number">XXX</h4>
+                    <h6 class="stat-type">Hackers</h6>
+                </div>
+                <div class="stat col m3 s6">
+                    <h4 class="stat-number">XX</h4>
+                    <h6 class="stat-type">Projects</h6>
+                </div>
+                <div class="stat col m3 s6">
+                    <h4 class="stat-number">$XXXX</h4>
+                    <h6 class="stat-type">in Prizes</h6>
+                </div>
+                <div class="stat col m3 s6">
+                    <h4 class="stat-number">XX</h4>
+                    <h6 class="stat-type">Sponsors</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container section">
+        <div class="s12 m8 flexColCenter">
+            <h3 class="center">Check out last year!</h3>
+            <iframe class="video center" src="https://www.youtube.com/embed/NpEaa2P7qZI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <br /><br />
+    </div>
+
+    <div class="carousel">
+        <!-- IMAGES MUST ALL BE THE SAME SIZE -->
+        <a class="carousel-item" ><img src="https://i.imgur.com/UoVt0SD.jpg" alt="2019-image-1"/></a>
+        <a class="carousel-item" ><img src="https://i.imgur.com/tFJUdpY.jpg" alt="2019-image-2"/></a>
+        <a class="carousel-item" ><img src="https://i.imgur.com/EeFW9yt.jpg" alt="2019-image-3"/></a>
+        <a class="carousel-item" ><img src="https://i.imgur.com/ho1TpX3.jpg" alt="2019-image-4"/></a>
+        <a class="carousel-item" ><img src="https://i.imgur.com/NuVyjXK.jpg" alt="2019-image-5"/></a>
+        <a class="carousel-item" ><img src="https://i.imgur.com/r7ZMttJ.jpg" alt="2019-image-6"/></a>
     </div>
 </div>
 
-<div class="carousel">
-    <a class="carousel-item" href="#one!"><img src="https://i.imgur.com/leuHG62.jpg" alt="2019-image-1" /></a>
-    <a class="carousel-item" href="#two!"><img src="https://i.imgur.com/N3Q8dbL.jpg" alt="2019-image-2" /></a>
-    <a class="carousel-item" href="#three!"><img src="https://i.imgur.com/DghK123.jpg" alt="2019-image-3" /></a>
-    <a class="carousel-item" href="#four!"><img src="https://i.imgur.com/xdpCVHP.jpg" alt="2019-image-4" /></a>
-    <a class="carousel-item" href="#five!"><img src="https://i.imgur.com/sB0BQl3.jpg" alt="2019-image-5" /></a>
-    <a class="carousel-item" href="#six!"><img src="https://i.imgur.com/YrS6y1i.jpg" alt="2019-image-6" /></a>
-    <a class="carousel-item" href="#seven!"><img src="https://i.imgur.com/CINCqvW.jpg" alt="2019-image-7" /></a>
-    <a class="carousel-item" href="#eight!"><img src="https://i.imgur.com/Dhok4x6.jpg" alt="2019-image-8" /></a>
-    <a class="carousel-item" href="#nine!"><img src="https://i.imgur.com/9lxQVBA.jpg" alt="2019-image-9" /></a>
-    <a class="carousel-item" href="#ten!"><img src="https://i.imgur.com/n9ex97x.jpg" alt="2019-image-10" /></a>
-</div>
-<footer class="page-footer secondaryColor darkText">
+<footer class="page-footer primaryColor">
     <div class="container scrollspy" id="contact">
         <h3 class="row center">Contact Us</h3>
 
+        <!-- To change the color of the icons, read the .contactBtns class in styles.scss -->
         <div class="row center contactBtns">
             <a href="mailto:{{ contact_email }}" class="waves-effect waves-light" rel="noopener" target="_blank"><img src="{{ static('event/images/social/email.svg') }}" alt="Email" /></a>
             <a href="https://www.ieee.utoronto.ca" class="waves-effect waves-light" rel="noopener" target="_blank"><img src="{{ static('event/images/social/website.svg') }}" alt="ieee.utoronto.ca" /></a>
             <a href="https://www.facebook.com/ieeeuoft" class="waves-effect waves-light" rel="noopener" target="_blank"><img src="{{ static('event/images/social/facebook.svg') }}" alt="Facebook" /></a>
-            <a href="https://www.instagram.com/ieee_uoft" class="waves-effect waves-light" rel="noopener" target="_blank"><img src="{{ static('event/images/social/instagram.svg') }}" alt="Instagram" /></a>
+            <a href="https://www.instagram.com/ieee_uoft" class="waves-effect waves-light" rel="noopener" target="_blank"><img src="{{ static('event/images/social/instagram.svg') }}" alt="Instagram"/></a>
         </div>
 
-        <p class="center">Need a platform for your hackathon? We're <a class="hoverLink primaryText" href="https://github.com/ieeeuoft/hackathon-template/" rel="noopener" target="_blank">open source</a>!</p>
+        <p class="center">Need a platform for your hackathon? We're <a class="hoverLink" href="https://github.com/ieeeuoft/hackathon-template/" rel="noopener" target="_blank">open source</a>!</p>
     </div>
-    <div class="footer-copyright center darkText">
-        <div class="container darkText">
-            Copyright © {% if localtime(event_end_date).year > 2020 %}2020 -{% endif %}
+    <div class="footer-copyright center">
+        <div class="container">
+            Copyright © {% if localtime(event_end_date).year > 2020 %}2020-{% endif %}
             {{ localtime(event_end_date).strftime("%Y") }} IEEE University of Toronto Student Branch
         </div>
     </div>
