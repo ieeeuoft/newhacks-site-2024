@@ -1,5 +1,6 @@
 {% extends "event/form_base.html" %}
 
+{% block title %}Login - {{ hackathon_name }}{% endblock %}
 {% block form_title %}Login{% endblock %}
 
 {% block nav_logout_login_links %}{% endblock %}
@@ -53,7 +54,7 @@
         <div class="formFieldError col s12">
             {{ error }}
         </div>
-        
+
     {% endfor %}
 {% endif %}
 {% endblock %}

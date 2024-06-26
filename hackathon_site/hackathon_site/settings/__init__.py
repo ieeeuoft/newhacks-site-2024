@@ -315,11 +315,11 @@ DEFAULT_FROM_EMAIL = "hello@newhacks.ca"
 CONTACT_EMAIL = DEFAULT_FROM_EMAIL
 HSS_ADMIN_EMAIL = "hardware@newhacks.ca"
 
-REGISTRATION_OPEN_DATE = datetime(2023, 9, 18, 0, 0, 0, tzinfo=TZ_INFO)
-REGISTRATION_CLOSE_DATE = datetime(2023, 10, 29, 23, 59, 0, tzinfo=TZ_INFO)
-EVENT_START_DATE = datetime(2023, 11, 4, 8, 0, 0, tzinfo=TZ_INFO)
-EVENT_END_DATE = datetime(2023, 11, 5, 17, 0, 0, tzinfo=TZ_INFO)
-HARDWARE_SIGN_OUT_START_DATE = datetime(2023, 10, 28, 23, 59, 0, tzinfo=TZ_INFO)
+REGISTRATION_OPEN_DATE = datetime(2024, 9, 18, 0, 0, 0, tzinfo=TZ_INFO)
+REGISTRATION_CLOSE_DATE = datetime(2024, 10, 29, 23, 59, 0, tzinfo=TZ_INFO)
+EVENT_START_DATE = datetime(2024, 11, 4, 8, 0, 0, tzinfo=TZ_INFO)
+EVENT_END_DATE = datetime(2024, 11, 5, 17, 0, 0, tzinfo=TZ_INFO)
+HARDWARE_SIGN_OUT_START_DATE = datetime(2024, 10, 28, 23, 59, 0, tzinfo=TZ_INFO)
 HARDWARE_SIGN_OUT_END_DATE = EVENT_END_DATE
 
 RSVP_DAYS = 10
