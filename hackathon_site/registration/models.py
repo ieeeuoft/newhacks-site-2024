@@ -28,13 +28,13 @@ class Team(models.Model):
 
 
 class Application(models.Model):
-    GENDER_CHOICES = [
+    PRONOUN_CHOICES = [
         (None, ""),
-        ("male", "Male"),
-        ("female", "Female"),
-        ("non-binary", "Non-binary"),
-        ("other", "Other"),
-        ("no-answer", "Prefer not to answer"),
+        ("he-him", "he/him"),
+        ("she-her", "she/her"),
+        ("they-them", "they/them"),
+        ("other", "other"),
+        ("no-answer", "prefer not to answer"),
     ]
 
     ETHNICITY_CHOICES = [
@@ -56,14 +56,26 @@ class Application(models.Model):
         ("other", "Other"),
     ]
 
+    AGE_CHOICES = [
+        (None, ""),
+        (18, "18"),
+        (19, "19"),
+        (20, "20"),
+        (21, "21"),
+        (22, "22"),
+        (23, "22+"),
+    ]
+
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=False)
     team = models.ForeignKey(
         Team, related_name="applications", on_delete=models.CASCADE, null=False
     )
 
     # User Submitted Fields
-    birthday = models.DateField(null=False)
-    gender = models.CharField(max_length=50, choices=GENDER_CHOICES, null=False)
+    age = models.PositiveIntegerField(choices=AGE_CHOICES, null=False)
+    pronouns = models.CharField(
+        max_length=50, choices=PRONOUN_CHOICES, null=False, default=""
+    )
     ethnicity = models.CharField(max_length=50, choices=ETHNICITY_CHOICES, null=False)
     phone_number = models.CharField(
         max_length=20,
@@ -75,6 +87,8 @@ class Application(models.Model):
             )
         ],
     )
+    city = models.CharField(max_length=255, null=False)
+    country = models.CharField(max_length=255, null=False)
     school = models.CharField(max_length=255, null=False,)
     study_level = models.CharField(
         max_length=50, choices=STUDY_LEVEL_CHOICES, null=False
@@ -90,6 +104,9 @@ class Application(models.Model):
             ),
         ],
     )
+    program = models.CharField(
+        max_length=255, help_text="Program or Major", null=False, default=""
+    )
     resume = models.FileField(
         upload_to="applications/resumes/",
         validators=[
@@ -99,22 +116,65 @@ class Application(models.Model):
         ],
         null=False,
     )
-    q1 = models.TextField(null=False, help_text="First question?", max_length=1000)
-    q2 = models.TextField(null=False, help_text="Second question?", max_length=1000)
-    q3 = models.TextField(null=False, help_text="Third question?", max_length=1000)
-    conduct_agree = models.BooleanField(
-        help_text="I have read and agree to the code of conduct.",
-        blank=False,
-        null=False,
+    linkedin = models.URLField(
+        max_length=200, help_text="LinkedIn Profile (Optional)", null=True, blank=True
     )
-    data_agree = models.BooleanField(
-        help_text="I consent to have the data in this application collected for event purposes "
-        "including administration, ranking, and event communication.",
+    github = models.URLField(
+        max_length=200, help_text="Github Profile (Optional)", null=True, blank=True
+    )
+    devpost = models.URLField(
+        max_length=200, help_text="Devpost Profile (Optional)", null=True, blank=True
+    )
+    why_participate = models.TextField(
+        null=False,
+        help_text="Why do you want to participate in NewHacks?",
+        max_length=1000,
+    )
+    what_technical_experience = models.TextField(
+        null=False,
+        help_text="What is your technical experience with software?",
+        max_length=1000,
+    )
+    what_past_experience = models.TextField(
+        null=False,
+        help_text="If you’ve been to a hackathon, briefly tell us your experience. If not, describe what you expect to see and experience.",
+        max_length=1000,
+    )
+    conduct_agree = models.BooleanField(
+        help_text="I have read and agree to the "
+        '<a href="https://static.mlh.io/docs/mlh-code-of-conduct.pdf" rel="noopener noreferrer" target="_blank">MLH code of conduct</a>.',
         blank=False,
         null=False,
+        default=False,
+    )
+    logistics_agree = models.BooleanField(
+        help_text="I authorize you to share my application/registration information with Major League Hacking"
+        " for event administration, ranking, and MLH administration in-line with the "
+        '<a href="https://mlh.io/privacy" rel="noopener noreferrer" target="_blank">MLH Privacy Policy</a>. '
+        "I further agree to the terms of both the "
+        '<a href="https://github.com/MLH/mlh-policies/blob/main/contest-terms.md" rel="noopener noreferrer" target="_blank">MLH Contest Terms and Conditions</a>'
+        " and the "
+        '<a href="https://mlh.io/privacy" rel="noopener noreferrer" target="_blank">MLH Privacy Policy.</a>',
+        blank=False,
+        null=False,
+        default=False,
     )
 
-    rsvp = models.BooleanField(null=True)
+    email_agree = models.BooleanField(
+        help_text="I authorize MLH to send me pre- and post-event informational"
+        " emails, which contain free credit and opportunities from their partners.",
+        blank=True,
+        null=True,
+        default=False,
+    )
+
+    resume_sharing = models.BooleanField(
+        help_text="I consent to IEEE UofT sharing my resume with event sponsors.",
+        blank=True,
+        null=True,
+        default=False,
+    )
+
     created_at = models.DateTimeField(auto_now_add=True, null=False)
     updated_at = models.DateTimeField(auto_now=True, null=False)
 
