@@ -66,38 +66,6 @@ class SignUpForm(UserCreationForm):
     def clean_email(self):
         return self.cleaned_data["email"].lower()
 
-    def clean_first_name(self):
-        if not bool(re.search("^[a-zA-Z0-9]*$", self.cleaned_data["first_name"])):
-            raise forms.ValidationError(
-                _(
-                    f"This doesn't seem like a name, please enter a valid name (no special characters)"
-                ),
-                code="invalid_first_name",
-            )
-
-        if len(self.cleaned_data["first_name"]) > 30:
-            raise forms.ValidationError(
-                _(f"This input seems too long to be a name, please enter a valid name"),
-                code="first_name_too_long",
-            )
-        return self.cleaned_data["first_name"]
-
-    def clean_last_name(self):
-        if not bool(re.search("^[a-zA-Z0-9]*$", self.cleaned_data["last_name"])):
-            raise forms.ValidationError(
-                _(
-                    f"This doesn't seem like a name, please enter a valid name (no special characters)"
-                ),
-                code="invalid_last_name",
-            )
-
-        if len(self.cleaned_data["last_name"]) > 30:
-            raise forms.ValidationError(
-                _(f"This input seems too long to be a name, please enter a valid name"),
-                code="last_name_too_long",
-            )
-        return self.cleaned_data["last_name"]
-
     def save(self, commit=True):
         """
         Set the user's username to their email when saving
@@ -120,58 +88,51 @@ class ApplicationForm(forms.ModelForm):
     class Meta:
         model = Application
         fields = [
-            "age",
-            "pronouns",
+            "birthday",
+            "gender",
             "ethnicity",
             "phone_number",
-            "city",
-            "country",
             "school",
             "study_level",
             "graduation_year",
-            "program",
             "resume",
-            "linkedin",
-            "github",
-            "devpost",
-            "why_participate",
-            "what_technical_experience",
-            "what_past_experience",
+            "q1",
+            "q2",
+            "q3",
             "conduct_agree",
-            "logistics_agree",
-            "email_agree",
-            "resume_sharing",
+            "data_agree",
         ]
         widgets = {
+            "birthday": forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}),
             "school": forms.Select(
                 # Choices will be populated by select2
                 attrs={"class": "select2-school-select"},
                 choices=((None, ""),),
             ),
             "resume": MaterialFileInput(),
-            "why_participate": forms.Textarea(
+            "q1": forms.Textarea(
                 attrs={
                     "class": "materialize-textarea",
-                    "placeholder": "I want to participate in NewHacks because...",
+                    "placeholder": "I enjoy cake",
                     "data-length": 1000,
                 }
             ),
-            "what_technical_experience": forms.Textarea(
+            "q2": forms.Textarea(
                 attrs={
                     "class": "materialize-textarea",
-                    "placeholder": "My technical experience with software are...",
+                    "placeholder": "Cake is wonderful",
                     "data-length": 1000,
                 }
             ),
-            "what_past_experience": forms.Textarea(
+            "q3": forms.Textarea(
                 attrs={
                     "class": "materialize-textarea",
-                    "placeholder": "My past experiences are...",
+                    "placeholder": "I could really go for cake right now",
                     "data-length": 1000,
                 }
             ),
             "phone_number": forms.TextInput(attrs={"placeholder": "+1 (123) 456-7890"}),
-            "graduation_year": forms.NumberInput(attrs={"placeholder": 2023}),
+            "graduation_year": forms.NumberInput(attrs={"placeholder": 2020}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -179,7 +140,7 @@ class ApplicationForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.label_suffix = ""
         self.fields["conduct_agree"].required = True
-        self.fields["logistics_agree"].required = True
+        self.fields["data_agree"].required = True
 
     def clean(self):
         if not is_registration_open():
@@ -194,14 +155,17 @@ class ApplicationForm(forms.ModelForm):
             )
         return cleaned_data
 
-    def clean_age(self):
-        user_age = self.cleaned_data["age"]
-        if user_age < settings.MINIMUM_AGE:
+    def clean_birthday(self):
+        latest_birthday = (
+            settings.EVENT_START_DATE - relativedelta(years=settings.MINIMUM_AGE)
+        ).date()
+        user_birthday = self.cleaned_data["birthday"]
+        if user_birthday > latest_birthday:
             raise forms.ValidationError(
                 _(f"You must be {settings.MINIMUM_AGE} to participate."),
                 code="user_is_too_young_to_participate",
             )
-        return user_age
+        return self.cleaned_data["birthday"]
 
     def save(self, commit=True):
         self.instance = super().save(commit=False)

@@ -107,10 +107,11 @@ class ApplicationInline(admin.TabularInline):
     max_num = 0
     exclude = (
         "user",
-        "pronouns",
+        "gender",
         "ethnicity",
         "phone_number",
         "resume",
+        "rsvp",
         "conduct_agree",
         "data_agree",
     )
@@ -119,14 +120,11 @@ class ApplicationInline(admin.TabularInline):
         "study_level",
         "school",
         "graduation_year",
-        "linkedin",
-        "github",
-        "devpost",
-        "why_participate",
-        "what_technical_experience",
-        "what_past_experience",
+        "q1",
+        "q2",
+        "q3",
         "get_resume_link",
-        "age",
+        "birthday",
         "get_reviewer_name",
         "get_decision_sent_date",
     )

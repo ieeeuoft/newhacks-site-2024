@@ -1,5 +1,3 @@
 $(document).ready(function () {
-    $(
-        "#id_why_participate, #id_what_technical_experience, #id_what_past_experience"
-    ).characterCounter();
+    $("#id_q1, #id_q2, #id_q3").characterCounter();
 });

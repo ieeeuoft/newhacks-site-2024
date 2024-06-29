@@ -49,24 +49,19 @@ class SetupUserMixin:
             team = RegistrationTeam.objects.create()
 
         application_data = {
-            "age": 19,
-            "pronouns": "no-answer",
+            "birthday": date(2000, 1, 1),
+            "gender": "no-answer",
             "ethnicity": "no-answer",
             "phone_number": "1234567890",
-            "city": "Toronto",
-            "country": "Canada",
             "school": "UofT",
             "study_level": "other",
             "graduation_year": 2020,
-            "program": "Engineering",
-            "resume": "uploads/resumes/my_resume.pdf",
-            "why_participate": "hi",
-            "what_technical_experience": "there",
-            "what_past_experience": "foo",
+            "q1": "hi",
+            "q2": "there",
+            "q3": "foo",
             "conduct_agree": True,
-            "email_agree": True,
-            "logistics_agree": True,
-            "resume_sharing": True,
+            "data_agree": True,
+            "resume": "uploads/resumes/my_resume.pdf",
             **kwargs,
         }
         return Application.objects.create(user=user, team=team, **application_data)
