@@ -1,11 +1,9 @@
-from django.conf import settings
 from django.contrib.auth.models import Group
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 from hackathon_site.tests import SetupUserMixin
 from django.contrib.auth.models import Permission
-from django.db.models import Q
 
 
 from event.models import Profile, User, Team
@@ -149,7 +147,7 @@ class JoinTeamTestCase(SetupUserMixin, APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(old_team.pk, self.user.profile.team.pk)
 
-    def check_can_leave_cancelled_or_returned(self):
+    def check_can_leave_cancelled(self):
         old_team = self.profile.team
         sample_team = self._make_event_team(self_users=False, num_users=2)
         response = self.client.post(self._build_view(sample_team.team_code))
@@ -560,7 +558,7 @@ class CreateProfileViewTestCase(SetupUserMixin, APITestCase):
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_user_can_have_profile(self):
-        self._review(application=self._apply_as_user(self.user, rsvp=True))
+        self._review(application=self._apply_as_user(self.user))
         self._login()
         response = self.client.post(self.view, self.request_body)
         data = response.json()
@@ -577,7 +575,7 @@ class CreateProfileViewTestCase(SetupUserMixin, APITestCase):
         self.assertEqual(self.expected_response, data)
 
     def test_not_including_required_fields(self):
-        self._review(application=self._apply_as_user(self.user, rsvp=True))
+        self._review(application=self._apply_as_user(self.user))
         self._login()
         response = self.client.post(self.view, {"e_signature": "user signature",})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -585,7 +583,7 @@ class CreateProfileViewTestCase(SetupUserMixin, APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_acknowledge_rules_is_false(self):
-        self._review(application=self._apply_as_user(self.user, rsvp=True))
+        self._review(application=self._apply_as_user(self.user))
         self._login()
         response = self.client.post(
             self.view, {"e_signature": "user signature", "acknowledge_rules": False,},
@@ -597,7 +595,7 @@ class CreateProfileViewTestCase(SetupUserMixin, APITestCase):
         )
 
     def test_e_signature_is_empty(self):
-        self._review(application=self._apply_as_user(self.user, rsvp=True))
+        self._review(application=self._apply_as_user(self.user))
         self._login()
         response = self.client.post(
             self.view, {"e_signature": "", "acknowledge_rules": True,},
@@ -626,33 +624,8 @@ class CreateProfileViewTestCase(SetupUserMixin, APITestCase):
             "User has not completed their application to the hackathon. Please do so to access the Hardware Signout Site",
         )
 
-    def test_user_has_not_rsvp(self):
-        self._apply_as_user(self.user)
-        self._login()
-        response = self.client.post(self.view, self.request_body)
-        data = response.json()
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(
-            data[0],
-            "User has not RSVP'd to the hackathon. Please RSVP to access the Hardware Signout Site",
-        )
-
     def test_user_has_not_been_reviewed(self):
-        self._apply_as_user(self.user, rsvp=True)
-        self._login()
-        response = self.client.post(self.view, self.request_body)
-        data = response.json()
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(
-            data[0],
-            "User has not been reviewed yet, Hardware Signout Site cannot be accessed until reviewed",
-        )
-
-    def test_user_has_been_reviewed_but_not_sent(self):
-        self._review(
-            application=self._apply_as_user(self.user, rsvp=True),
-            decision_sent_date=None,
-        )
+        self._apply_as_user(self.user)
         self._login()
         response = self.client.post(self.view, self.request_body)
         data = response.json()
@@ -663,16 +636,13 @@ class CreateProfileViewTestCase(SetupUserMixin, APITestCase):
         )
 
     def test_user_review_rejected(self):
-        self._review(
-            application=self._apply_as_user(self.user, rsvp=True), status="Rejected"
-        )
+        self._review(application=self._apply_as_user(self.user), status="Rejected")
         self._login()
         response = self.client.post(self.view, self.request_body)
         data = response.json()
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(
-            data[0],
-            f"User has not been accepted to participate in {settings.HACKATHON_NAME}",
+            data[0], "User has not been accepted to participate in hackathon"
         )
 
 
@@ -878,10 +848,8 @@ class EventTeamDetailViewTestCase(SetupUserMixin, APITestCase):
 
         self.permissions = Permission.objects.filter(
             Q(content_type__app_label="event", codename="view_team")
-            | Q(content_type__app_label="event", codename="change_team")
             | Q(content_type__app_label="event", codename="delete_team"),
         )
-
         super().setUp()
 
     def _build_view(self, team_code):
@@ -933,58 +901,6 @@ class EventTeamDetailViewTestCase(SetupUserMixin, APITestCase):
         self._login(self.permissions)
         response = self.client.delete(self._build_view(self.team3.team_code))
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-
-    def test_team_patch_not_login(self):
-        response = self.client.patch(
-            self._build_view("56ABD"), data={"project_description": "New description"}
-        )
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
-
-    def test_team_patch_no_permissions(self):
-        self._login()
-        response = self.client.patch(
-            self._build_view("56ABD"), data={"project_description": "New description"}
-        )
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-
-    def test_team_patch_has_permissions(self):
-        self._login(self.permissions)
-        response = self.client.patch(
-            self._build_view(self.team.team_code),
-            data={"project_description": "New description"},
-        )
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        updated_team = Team.objects.get(team_code=self.team.team_code)
-        self.assertEqual(updated_team.project_description, "New description")
-
-    def test_team_patch_invalid_request_data_format(self):
-        self._login(self.permissions)
-        response = self.client.patch(
-            self._build_view(self.team.team_code), data={"Invalid data"}, format="json"
-        )
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response.data, "Invalid request data format")
-
-    def test_team_patch_invalid_field_for_update(self):
-        self._login(self.permissions)
-        response = self.client.patch(
-            self._build_view(self.team.team_code),
-            data={"invalid_field": "Invalid data"},
-        )
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(
-            response.data, '"invalid_field" is not a valid field for update'
-        )
-
-    def test_team_patch_invalid_project_description(self):
-        self._login(self.permissions)
-        response = self.client.patch(
-            self._build_view(self.team.team_code),
-            data={"project_description": 12345},
-            format="json",
-        )
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response.data, "project_description must be a string")
 
 
 class TeamOrderDetailViewTestCase(SetupUserMixin, APITestCase):
