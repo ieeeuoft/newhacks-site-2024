@@ -84,18 +84,23 @@ class ApplicationFormTestCase(SetupUserMixin, TestCase):
     def setUp(self):
         super().setUp()
         self.data = {
-            "birthday": date(2000, 7, 7),
-            "gender": "no-answer",
+            "age": 21,
+            "pronouns": "no-answer",
             "ethnicity": "no-answer",
             "phone_number": "1234567890",
-            "school": "UofT",
+            "city": "Toronto",
+            "country": "Canada",
+            "school": "University of Toronto",
             "study_level": "other",
             "graduation_year": 2020,
-            "q1": "hi",
-            "q2": "there",
-            "q3": "foo",
+            "program": "Engineering",
+            "why_participate": "hi",
+            "what_technical_experience": "there",
+            "what_past_experience": "foo",
             "conduct_agree": True,
-            "data_agree": True,
+            "email_agree": True,
+            "logistics_agree": True,
+            "resume_sharing": True,
         }
         self.files = self._build_files()
 
@@ -125,7 +130,17 @@ class ApplicationFormTestCase(SetupUserMixin, TestCase):
         return ApplicationForm(user=user, data=data, files=files)
 
     def test_fields_are_required(self):
+        optional_fields = {
+            "linkedin",
+            "github",
+            "devpost",
+            "email_agree",
+            "resume_sharing",
+            "logistics_agree",
+        }
         for field in self.data:
+            if field in optional_fields:
+                continue
             bad_data = self.data.copy()
             del bad_data[field]
 
@@ -139,6 +154,17 @@ class ApplicationFormTestCase(SetupUserMixin, TestCase):
         self.assertFalse(form.is_valid())
         self.assertIn("resume", form.errors)
         self.assertIn("This field is required.", form.errors["resume"])
+
+    def test_with_optional_fields(self):
+        data = self.data.copy()
+        data["linkedin"] = "https://linkedin.com"
+        data["github"] = "https://github.com"
+        data["devpost"] = "https://devpost.com"
+        data["resume_sharing"] = True
+        data["logistics_agree"] = True
+
+        form = self._build_form(data=data)
+        self.assertTrue(form.is_valid())
 
     def test_user_already_has_application(self):
         team = Team.objects.create()
@@ -258,23 +284,16 @@ class ApplicationFormTestCase(SetupUserMixin, TestCase):
         self.assertFalse(form.is_valid())
         self.assertIn("Registration has closed.", form.non_field_errors())
 
-    def test_invalid_birthday(self):
+    def test_invalid_age(self):
         data = self.data.copy()
-        data["birthday"] = (
-            settings.EVENT_START_DATE
-            - relativedelta(years=settings.MINIMUM_AGE - 1, days=360)
-        ).date()
+        data["age"] = settings.MINIMUM_AGE - 1
         form = self._build_form(data=data)
         self.assertFalse(form.is_valid())
         self.assertIn(
-            f"You must be {settings.MINIMUM_AGE} to participate.",
-            form.errors["birthday"],
+            f"You must be {settings.MINIMUM_AGE} to participate.", form.errors["age"],
         )
 
-        data["birthday"] = (
-            settings.EVENT_START_DATE
-            - relativedelta(years=settings.MINIMUM_AGE, days=1)
-        ).date()
+        data["age"] = settings.MINIMUM_AGE
         form = self._build_form(data=data)
         self.assertTrue(form.is_valid())
 
