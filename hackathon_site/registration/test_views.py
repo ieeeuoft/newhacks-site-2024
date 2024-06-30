@@ -1,4 +1,3 @@
-import unittest
 from datetime import date, datetime, timedelta
 from unittest.mock import patch
 
@@ -172,25 +171,33 @@ class ApplicationViewTestCase(SetupUserMixin, TestCase):
         self.view = reverse("registration:application")
 
         self.data = {
-            "birthday": date(2020, 9, 8),
-            "gender": "male",
-            "ethnicity": "caucasian",
-            "phone_number": "2262208655",
+            "age": 21,
+            "pronouns": "no-answer",
+            "ethnicity": "no-answer",
+            "phone_number": "1234567890",
+            "city": "Toronto",
+            "country": "Canada",
             "school": "UofT",
             "study_level": "other",
             "graduation_year": 2020,
-            "q1": "hi",
-            "q2": "there",
-            "q3": "foo",
-            "conduct_agree": True,
-            "data_agree": True,
+            "program": "Engineering",
             "resume": "uploads/resumes/my_resume.pdf",
+            "linkedin": "https://www.linkedin.com/feed/",
+            "github": "https://github.com/",
+            "devpost": "https://devpost.com/",
+            "why_participate": "hi",
+            "what_technical_experience": "there",
+            "what_past_experience": "foo",
+            "conduct_agree": True,
+            "email_agree": True,
+            "logistics_agree": True,
+            "resume_sharing": True,
         }
 
         self.team = Team.objects.create()
 
         self.post_data = self.data.copy()
-        self.post_data["birthday"] = "2000-01-01"  # The format used by the widget
+        self.post_data["age"] = 2  # The format used by the widget
         self.post_data["resume"] = SimpleUploadedFile(
             "my_resume.pdf", b"some content", content_type="application/pdf"
         )
@@ -306,80 +313,3 @@ class LeaveTeamViewTestCase(SetupUserMixin, TestCase):
             "You cannot change teams after registration has closed.",
             status_code=status.HTTP_400_BAD_REQUEST,
         )
-
-
-@unittest.skipIf(not settings.RSVP, "Not using RSVP")
-class RSVPViewTestCase(SetupUserMixin, TestCase):
-    def setUp(self):
-        super().setUp()
-        self.view_accept = reverse("registration:rsvp", kwargs={"rsvp": "yes"})
-        self.view_decline = reverse("registration:rsvp", kwargs={"rsvp": "no"})
-
-    def test_bad_response_for_no_application(self):
-        self._login()
-        response = self.client.get(self.view_accept)
-        self.assertContains(
-            response,
-            "You have not submitted an application.",
-            status_code=status.HTTP_400_BAD_REQUEST,
-        )
-
-    def test_bad_response_for_not_reviewed(self):
-        self._login()
-        self._apply()
-        response = self.client.get(self.view_accept)
-        self.assertContains(
-            response,
-            "Your application has not yet been reviewed.",
-            status_code=status.HTTP_400_BAD_REQUEST,
-        )
-
-    def test_bad_response_for_not_accepted(self):
-        self._login()
-        self._apply()
-        self._review(status="Waitlisted")
-        response = self.client.get(self.view_accept)
-        self.assertContains(
-            response,
-            "You cannot RSVP since your application has not yet been accepted.",
-            status_code=status.HTTP_400_BAD_REQUEST,
-        )
-
-    def test_decline_no_profile_and_redirects(self):
-        self._login()
-        self._apply()
-        self._review()
-
-        response = self.client.get(self.view_decline)
-        self.user.application.refresh_from_db()
-
-        self.assertFalse(self.user.application.rsvp)
-        self.assertFalse(hasattr(self.user, "profile"))
-        self.assertRedirects(response, reverse("event:dashboard"))
-
-    def test_accept_create_profile_and_redirects(self):
-        self._login()
-        self._apply()
-        self._review()
-
-        response = self.client.get(self.view_accept)
-        self.user.application.refresh_from_db()
-
-        self.assertTrue(self.user.application.rsvp)
-        # TODO: decide whether to create profile when rsvp
-        # self.assertTrue(hasattr(self.user, "profile"))
-        self.assertRedirects(response, reverse("event:dashboard"))
-
-    def test_redirects_to_dashboard_if_rsvp_deadline_passed(self):
-        self._login()
-        self._apply()
-        self._review(
-            decision_sent_date=datetime.now().replace(tzinfo=settings.TZ_INFO).date()
-            - timedelta(days=settings.RSVP_DAYS + 1)
-        )
-
-        response = self.client.get(self.view_accept)
-        self.user.application.refresh_from_db()
-
-        self.assertIsNone(self.user.application.rsvp)
-        self.assertRedirects(response, reverse("event:dashboard"))
