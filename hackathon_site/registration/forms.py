@@ -67,7 +67,7 @@ class SignUpForm(UserCreationForm):
         return self.cleaned_data["email"].lower()
 
     def clean_first_name(self):
-        if not bool(re.search("^[a-zA-Z0-9]*$", self.cleaned_data["first_name"])):
+        if not bool(re.search("^[a-zA-Z0-9\s-]*$", self.cleaned_data["first_name"])):
             raise forms.ValidationError(
                 _(
                     f"This doesn't seem like a name, please enter a valid name (no special characters)"
@@ -83,7 +83,7 @@ class SignUpForm(UserCreationForm):
         return self.cleaned_data["first_name"]
 
     def clean_last_name(self):
-        if not bool(re.search("^[a-zA-Z0-9]*$", self.cleaned_data["last_name"])):
+        if not bool(re.search("^[a-zA-Z0-9\s-]*$", self.cleaned_data["last_name"])):
             raise forms.ValidationError(
                 _(
                     f"This doesn't seem like a name, please enter a valid name (no special characters)"
@@ -196,6 +196,9 @@ class ApplicationForm(forms.ModelForm):
 
     def clean_age(self):
         user_age = self.cleaned_data["age"]
+        # Check if the age is "22+"
+        if user_age == "22+":
+            return user_age
         if user_age < settings.MINIMUM_AGE:
             raise forms.ValidationError(
                 _(f"You must be {settings.MINIMUM_AGE} to participate."),
