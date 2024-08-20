@@ -28,6 +28,15 @@ class Team(models.Model):
 
 
 class Application(models.Model):
+    GENDER_CHOICES = [
+        (None, ""),
+        ("male", "Male"),
+        ("female", "Female"),
+        ("non-binary", "Non-binary"),
+        ("other", "Other"),
+        ("no-answer", "Prefer not to answer"),
+    ]
+
     PRONOUN_CHOICES = [
         (None, ""),
         ("he-him", "he/him"),
@@ -39,12 +48,23 @@ class Application(models.Model):
 
     ETHNICITY_CHOICES = [
         (None, ""),
-        ("american-native", "American Indian or Alaskan Native"),
-        ("asian-pacific-islander", "Asian / Pacific Islander"),
+        ("asian-indian", "Asian Indian"),
         ("black-african-american", "Black or African American"),
-        ("hispanic", "Hispanic"),
+        ("chinese", "Chinese"),
+        ("filipino", "Filipino"),
+        ("guamanian-chamorro", "Guamanian or Chamorro"),
+        ("hispanic-latino", "Hispanic/Latino/Spanish Origin"),
+        ("japanese", "Japanese"),
+        ("korean", "Korean"),
+        ("middle-eastern", "Middle Eastern"),
+        ("native-american", "Native American or Alaskan Native"),
+        ("native-hawaiian", "Native Hawaiian"),
+        ("samoan", "Samoan"),
+        ("vietnamese", "Vietnamese"),
         ("caucasian", "White / Caucasian"),
-        ("other", "Multiple ethnicity / Other"),
+        ("other-asian", "Other Asian (Thai, Cambodian, etc)"),
+        ("other-pacific-islander", "Other Pacific Islander"),
+        ("other", "Other (Please Specify)"),
         ("no-answer", "Prefer not to answer"),
     ]
 
@@ -75,6 +95,29 @@ class Application(models.Model):
         (22, "22"),
         (23, "22+"),
     ]
+    TSHIRT_SIZE_CHOICES = [
+        (None, ""),
+        ("S", "S"),
+        ("M", "M"),
+        ("L", "L"),
+        ("XL", "XL"),
+    ]
+
+    DIETARY_RESTRICTIONS_CHOICES = [
+        (None, ""),
+        ("none", "None"),
+        ("halal", "Halal"),
+        ("vegetarian", "Vegetarian"),
+        ("gluten-Free", "Gluten-free"),
+        ("other but specify", "Other but Specify"),
+    ]
+
+    YES_NO_UNSURE = [
+        (None, ""),
+        ("yes", "Yes"),
+        ("no", "No"),
+        ("unsure", "Unsure"),
+    ]
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=False)
     team = models.ForeignKey(
@@ -84,6 +127,13 @@ class Application(models.Model):
     # User Submitted Fields
     age = models.PositiveIntegerField(choices=AGE_CHOICES, null=False)
     under_age = models.BooleanField(null=False, default=False)
+    gender = models.CharField(max_length=50, choices=GENDER_CHOICES, null=False)
+    dietary_restrictions = models.CharField(
+        max_length=50, choices=DIETARY_RESTRICTIONS_CHOICES, null=False
+    )
+    tshirt_size = models.CharField(
+        max_length=50, choices=TSHIRT_SIZE_CHOICES, null=False
+    )
     pronouns = models.CharField(
         max_length=50, choices=PRONOUN_CHOICES, null=False, default=""
     )
