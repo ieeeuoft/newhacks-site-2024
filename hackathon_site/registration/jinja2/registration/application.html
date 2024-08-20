@@ -35,19 +35,33 @@
         <h4>Personal Information</h4>
         <br/>
     </div>
-    {{ render_field(form.age, size="s12 m6 select2-wrapper") }}
-    {{ render_field(form.phone_number, size="s12 m6") }}
-    {{ render_field(form.pronouns, size="s12 m6 select2-wrapper") }}
-    {{ render_field(form.ethnicity, size="s12 m6 select2-wrapper") }}
-    {{ render_field(form.city, size="s12 m6 select2-wrapper added-country-margin formAddTopMargin") }}
-    {{ render_field(form.country, size="s12 m6 select2-wrapper added-country-margin formAddTopMargin") }}
+
+    <div class="row">
+        {{ render_field(form.pronouns, size="s12 m6 select2-wrapper") }}
+        {{ render_field(form.age, size="s12 m6 select2-wrapper") }}
+    </div>
+
+    <div class="row">
+        {{ render_field(form.phone_number, size="s12 m6") }}
+        {{ render_field(form.gender, size="s12 m6 select2-wrapper") }}
+    </div>
+
+    <div class="row">
+        {{ render_field(form.ethnicity, size="s12 m6 select2-wrapper") }}
+        {{ render_field(form.country, size="s12 m6", show_help_text_as_label=True) }}
+    </div>
+
+    <div class="row">
+        {{ render_field(form.dietary_restrictions, size="s12 m6 select2-wrapper") }}
+        {{ render_field(form.tshirt_size, size="s12 m6 select2-wrapper", show_help_text_as_label=True) }}
+    </div>
 
     <div class="col s12">
         <h4>Education</h4>
     </div>
-    {{ render_field(form.school, size="s12 m6 select2-wrapper") }}
-    {{ render_field(form.study_level, size="s12 m6 select2-wrapper") }}
-    {{ render_field(form.graduation_year, size="s12 m6 select2-wrapper") }}
+    {{ render_field(form.school, size="s12 m6 select2-wrapper", show_help_text_as_label=False) }}
+    {{ render_field(form.study_level, size="s12 m6 select2-wrapper", show_help_text_as_label=False) }}
+    {{ render_field(form.graduation_year, size="s12 m6 select2-wrapper", show_help_text_as_label=True) }}
     {{ render_field(form.program, size="s12 m6 select2-wrapper", show_help_text_as_label=True) }}
 
     <div class="col s12">
@@ -64,6 +78,7 @@
     {{ render_field(form.why_participate, show_help_text_as_label=True) }}
     {{ render_field(form.what_technical_experience, show_help_text_as_label=True) }}
     {{ render_field(form.what_past_experience, show_help_text_as_label=True) }}
+
 
     <div class="col s12">
         <p>We are currently in the process of partnering with MLH. The following 3 checkboxes are for this partnership. If we do not end up partnering with MLH, your information will not be shared.</p>
