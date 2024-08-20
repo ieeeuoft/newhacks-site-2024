@@ -117,18 +117,18 @@ class SignUpForm(UserCreationForm):
 class ApplicationForm(forms.ModelForm):
     error_css_class = "invalid"
 
-    class Meta: # TODO: Why are we missing the gender field?
+    class Meta:  # TODO: Why are we missing the gender field?
         model = Application
         fields = [
-            "age", #covered
-            "pronouns", #covered
-            "ethnicity", #covered
-            "phone_number", #covered
-            "gender", #TODO: New
+            "age",  # covered
+            "pronouns",  # covered
+            "ethnicity",  # covered
+            "phone_number",  # covered
+            "gender",  # TODO: New
             # "city",
-            "country", #covered
-            "dietary_restrictions", #covered
-            "tshirt_size", #covered
+            "country",  # covered
+            "dietary_restrictions",  # covered
+            "tshirt_size",  # covered
             # "underrepresented_community",
             # "sexual_orientation",
             "school",
