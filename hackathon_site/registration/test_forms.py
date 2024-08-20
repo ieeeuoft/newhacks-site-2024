@@ -84,23 +84,25 @@ class ApplicationFormTestCase(SetupUserMixin, TestCase):
     def setUp(self):
         super().setUp()
         self.data = {
-            "age": 21,
-            "pronouns": "no-answer",
-            "ethnicity": "no-answer",
+            "age": "18",
+            "pronouns": "he-him",
+            "ethnicity": "chinese",
             "phone_number": "1234567890",
-            "city": "Toronto",
-            "country": "Canada",
-            "school": "University of Toronto",
-            "study_level": "other",
-            "graduation_year": 2020,
-            "program": "Engineering",
-            "why_participate": "hi",
-            "what_technical_experience": "there",
+            "gender": "male",
+            "country": "canada",
+            "dietary_restrictions": "halal",
+            "tshirt_size": "L",
+            # "underrepresented_community": "no",
+            # "sexual_orientation": "straight",
+            "school": "UofT",
+            "study_level": "gradschool",
+            "graduation_year": "2025",
+            "program": "computer science",
+            # "how_many_hackathons": "2",
+            "why_participate": "foo",
+            "what_technical_experience": "foo",
             "what_past_experience": "foo",
-            "conduct_agree": True,
-            "email_agree": True,
-            "logistics_agree": True,
-            "resume_sharing": True,
+            # "discovery_method": "instagram",
         }
         self.files = self._build_files()
 
@@ -136,6 +138,8 @@ class ApplicationFormTestCase(SetupUserMixin, TestCase):
             "devpost",
             "email_agree",
             "resume_sharing",
+            # "rsvp",
+            "conduct_agree",
             "logistics_agree",
         }
         for field in self.data:
