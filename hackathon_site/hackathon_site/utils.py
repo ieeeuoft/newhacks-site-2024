@@ -18,6 +18,7 @@ def is_registration_open():
     now = datetime.now().replace(tzinfo=settings.TZ_INFO)
     return settings.REGISTRATION_OPEN_DATE <= now < settings.REGISTRATION_CLOSE_DATE
 
+
 def is_application_open():
     """
     Determine whether applications are currently open.
