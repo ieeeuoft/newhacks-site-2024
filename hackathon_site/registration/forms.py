@@ -134,9 +134,9 @@ class ApplicationForm(forms.ModelForm):
             "linkedin",
             "github",
             "devpost",
-            # "why_participate",
-            # "what_technical_experience",
-            # "what_past_experience",
+            "why_participate",
+            "what_technical_experience",
+            "what_past_experience",
             "conduct_agree",
             "logistics_agree",
             "email_agree",
@@ -149,27 +149,27 @@ class ApplicationForm(forms.ModelForm):
                 choices=((None, ""),),
             ),
             "resume": MaterialFileInput(),
-            # "why_participate": forms.Textarea(
-            #     attrs={
-            #         "class": "materialize-textarea",
-            #         "placeholder": "I want to participate in NewHacks because...",
-            #         "data-length": 1000,
-            #     }
-            # ),
-            # "what_technical_experience": forms.Textarea(
-            #     attrs={
-            #         "class": "materialize-textarea",
-            #         "placeholder": "My technical experience with software are...",
-            #         "data-length": 1000,
-            #     }
-            # ),
-            # "what_past_experience": forms.Textarea(
-            #     attrs={
-            #         "class": "materialize-textarea",
-            #         "placeholder": "My past experiences are...",
-            #         "data-length": 1000,
-            #     }
-            # ),
+            "why_participate": forms.Textarea(
+                attrs={
+                    "class": "materialize-textarea",
+                    "placeholder": "I want to participate in NewHacks because...",
+                    "data-length": 1000,
+                }
+            ),
+            "what_technical_experience": forms.Textarea(
+                attrs={
+                    "class": "materialize-textarea",
+                    "placeholder": "My technical experience with software are...",
+                    "data-length": 1000,
+                }
+            ),
+            "what_past_experience": forms.Textarea(
+                attrs={
+                    "class": "materialize-textarea",
+                    "placeholder": "My past experiences are...",
+                    "data-length": 1000,
+                }
+            ),
             "phone_number": forms.TextInput(attrs={"placeholder": "+1 (123) 456-7890"}),
             "graduation_year": forms.NumberInput(attrs={"placeholder": 2023}),
         }
