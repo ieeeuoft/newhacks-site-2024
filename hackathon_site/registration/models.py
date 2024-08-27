@@ -140,17 +140,17 @@ class Application(models.Model):
         max_length=200, help_text="Devpost Profile (Optional)", null=True, blank=True
     )
     why_participate = models.TextField(
-        null=True,
+        null=False,
         help_text="Why do you want to participate in NewHacks?",
         max_length=1000,
     )
     what_technical_experience = models.TextField(
-        null=True,
+        null=False,
         help_text="What is your technical experience with software?",
         max_length=1000,
     )
     what_past_experience = models.TextField(
-        null=True,
+        null=False,
         help_text="If you’ve been to a hackathon, briefly tell us your experience. If not, describe what you expect to see and experience.",
         max_length=1000,
     )
