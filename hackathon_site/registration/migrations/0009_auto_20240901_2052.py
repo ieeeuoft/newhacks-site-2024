@@ -6,26 +6,38 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('registration', '0008_revert_0007_changes'),
+        ("registration", "0008_revert_0007_changes"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='application',
-            name='what_past_experience',
-            field=models.TextField(default='', help_text='If you’ve been to a hackathon, briefly tell us your experience. If not, describe what you expect to see and experience.', max_length=1000),
+            model_name="application",
+            name="what_past_experience",
+            field=models.TextField(
+                default="",
+                help_text="If you’ve been to a hackathon, briefly tell us your experience. If not, describe what you expect to see and experience.",
+                max_length=1000,
+            ),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='application',
-            name='what_technical_experience',
-            field=models.TextField(default='', help_text='What is your technical experience with software?', max_length=1000),
+            model_name="application",
+            name="what_technical_experience",
+            field=models.TextField(
+                default="",
+                help_text="What is your technical experience with software?",
+                max_length=1000,
+            ),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='application',
-            name='why_participate',
-            field=models.TextField(default='', help_text='Why do you want to participate in NewHacks?', max_length=1000),
+            model_name="application",
+            name="why_participate",
+            field=models.TextField(
+                default="",
+                help_text="Why do you want to participate in NewHacks?",
+                max_length=1000,
+            ),
             preserve_default=False,
         ),
     ]

@@ -6,20 +6,13 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('registration', '0007_auto_20240826_2200'),
+        ("registration", "0007_auto_20240826_2200"),
     ]
 
     operations = [
+        migrations.RemoveField(model_name="application", name="what_past_experience",),
         migrations.RemoveField(
-            model_name='application',
-            name='what_past_experience',
+            model_name="application", name="what_technical_experience",
         ),
-        migrations.RemoveField(
-            model_name='application',
-            name='what_technical_experience',
-        ),
-        migrations.RemoveField(
-            model_name='application',
-            name='why_participate',
-        ),
+        migrations.RemoveField(model_name="application", name="why_participate",),
     ]
