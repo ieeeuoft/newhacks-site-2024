@@ -87,6 +87,14 @@ class Application(models.Model):
     pronouns = models.CharField(
         max_length=50, choices=PRONOUN_CHOICES, null=False, default=""
     )
+    # TODO: New section here
+    free_response_pronouns = models.CharField(
+        max_length=20,
+        null=False,
+        default="",
+        help_text="If you selected 'Other', please specify your pronouns.",
+    )
+
     ethnicity = models.CharField(max_length=50, choices=ETHNICITY_CHOICES, null=False)
     phone_number = models.CharField(
         max_length=20,

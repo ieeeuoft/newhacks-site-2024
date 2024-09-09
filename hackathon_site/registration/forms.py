@@ -122,6 +122,7 @@ class ApplicationForm(forms.ModelForm):
         fields = [
             "age",
             "pronouns",
+            "free_response_pronouns", #TODO: New Section
             "ethnicity",
             "phone_number",
             "city",

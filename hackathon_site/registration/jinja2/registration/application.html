@@ -38,6 +38,8 @@
     {{ render_field(form.age, size="s12 m6 select2-wrapper") }}
     {{ render_field(form.phone_number, size="s12 m6") }}
     {{ render_field(form.pronouns, size="s12 m6 select2-wrapper") }}
+    {#    TODO: New entry here#}
+    {{ render_field(form.free_response_pronouns, show_help_text_as_label=True, size="s12 m6 select2-wrapper") }}
     {{ render_field(form.ethnicity, size="s12 m6 select2-wrapper") }}
     {{ render_field(form.city, size="s12 m6 select2-wrapper added-country-margin formAddTopMargin") }}
     {{ render_field(form.country, size="s12 m6 select2-wrapper added-country-margin formAddTopMargin") }}
