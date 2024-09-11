@@ -6,18 +6,37 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('registration', '0008_revert_0007_changes'),
+        ("registration", "0008_revert_0007_changes"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='application',
-            name='free_response_pronouns',
-            field=models.CharField(blank=True, default='', help_text="If you selected 'Other', please specify your pronouns.", max_length=100, null=True),
+            model_name="application",
+            name="free_response_pronouns",
+            field=models.CharField(
+                blank=True,
+                default="",
+                help_text="If you selected 'Other', please specify your pronouns.",
+                max_length=100,
+                null=True,
+            ),
         ),
         migrations.AlterField(
-            model_name='application',
-            name='pronouns',
-            field=models.CharField(choices=[(None, ''), ('he-him', 'he/him'), ('he-they', 'he/they'), ('she-her', 'she/her'), ('she-they', 'she/they'), ('they-them', 'they/them'), ('other', 'other'), ('no-answer', 'prefer not to answer')], default='', max_length=50),
+            model_name="application",
+            name="pronouns",
+            field=models.CharField(
+                choices=[
+                    (None, ""),
+                    ("he-him", "he/him"),
+                    ("he-they", "he/they"),
+                    ("she-her", "she/her"),
+                    ("she-they", "she/they"),
+                    ("they-them", "they/them"),
+                    ("other", "other"),
+                    ("no-answer", "prefer not to answer"),
+                ],
+                default="",
+                max_length=50,
+            ),
         ),
     ]

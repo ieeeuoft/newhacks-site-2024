@@ -122,7 +122,7 @@ class ApplicationForm(forms.ModelForm):
         fields = [
             "age",
             "pronouns",
-            "free_response_pronouns", #TODO: New Section
+            "free_response_pronouns",  # TODO: New Section
             "ethnicity",
             "phone_number",
             "city",
@@ -217,8 +217,10 @@ class ApplicationForm(forms.ModelForm):
         user_free_response_pronouns = self.cleaned_data["free_response_pronouns"]
         if user_pronouns == "other" and not user_free_response_pronouns:
             raise forms.ValidationError(
-                _("Since you've selected 'Other' for pronouns, please state what pronouns you go by. Limit: 100 characters."),
-                code = 'free_response_pronouns',
+                _(
+                    "Since you've selected 'Other' for pronouns, please state what pronouns you go by. Limit: 100 characters."
+                ),
+                code="free_response_pronouns",
             )
 
     def save(self, commit=True):
