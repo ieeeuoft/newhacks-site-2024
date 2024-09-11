@@ -193,6 +193,10 @@ class ApplicationForm(forms.ModelForm):
             raise forms.ValidationError(
                 _("User has already submitted an application."), code="invalid"
             )
+        # TODO: New line
+        self.handle_free_response_pronouns()
+        # TODO: New line (calling an existing method that was never called.... for some reason?)
+        self.clean_age()
         return cleaned_data
 
     def clean_age(self):
@@ -206,6 +210,16 @@ class ApplicationForm(forms.ModelForm):
                 code="user_is_too_young_to_participate",
             )
         return user_age
+
+    # TODO: Wrote a new validator for the field "free_response_pronouns"
+    def handle_free_response_pronouns(self):
+        user_pronouns = self.cleaned_data["pronouns"]
+        user_free_response_pronouns = self.cleaned_data["free_response_pronouns"]
+        if user_pronouns == "other" and not user_free_response_pronouns:
+            raise forms.ValidationError(
+                _("Since you've selected 'Other' for pronouns, please state what pronouns you go by. Limit: 100 characters."),
+                code = 'free_response_pronouns',
+            )
 
     def save(self, commit=True):
         self.instance = super().save(commit=False)

@@ -28,10 +28,13 @@ class Team(models.Model):
 
 
 class Application(models.Model):
+    # TODO: Added 2 new pronoun choices here
     PRONOUN_CHOICES = [
         (None, ""),
         ("he-him", "he/him"),
+        ("he-they", "he/they"),
         ("she-her", "she/her"),
+        ("she-they", "she/they"),
         ("they-them", "they/them"),
         ("other", "other"),
         ("no-answer", "prefer not to answer"),
@@ -89,8 +92,9 @@ class Application(models.Model):
     )
     # TODO: New section here
     free_response_pronouns = models.CharField(
-        max_length=20,
-        null=False,
+        max_length=100,
+        null=True,
+        blank=True,
         default="",
         help_text="If you selected 'Other', please specify your pronouns.",
     )
