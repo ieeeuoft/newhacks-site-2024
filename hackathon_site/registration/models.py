@@ -175,7 +175,7 @@ class Application(models.Model):
         max_length=50, choices=DIETARY_RESTRICTIONS_CHOICES, null=False, default=""
     )
 
-    # TODO: New section to allow people to clarify dietary restrictions. Applicable if selected "Other" or "Allergies
+    # TODO: New section to allow people to clarify dietary restrictions if selected "Other" or "Allergies
     free_response_dietary_restrictions = models.CharField(
         max_length=100,
         null=True,
