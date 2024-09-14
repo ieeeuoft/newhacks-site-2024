@@ -123,6 +123,8 @@ class ApplicationForm(forms.ModelForm):
             "age",
             "pronouns",
             "free_response_pronouns",  # TODO: New Section
+            "gender", # TODO : New Section
+            "free_response_gender",  # TODO : New Section
             "ethnicity",
             "phone_number",
             "city",
@@ -193,10 +195,13 @@ class ApplicationForm(forms.ModelForm):
             raise forms.ValidationError(
                 _("User has already submitted an application."), code="invalid"
             )
-        # TODO: New line
-        self.handle_free_response_pronouns()
+
         # TODO: New line (calling an existing method that was never called.... for some reason?)
         self.clean_age()
+        # TODO: New line
+        self.handle_free_response_pronouns()
+        # TODO: New line
+        self.handle_free_response_gender()
         return cleaned_data
 
     def clean_age(self):
@@ -218,9 +223,21 @@ class ApplicationForm(forms.ModelForm):
         if user_pronouns == "other" and not user_free_response_pronouns:
             raise forms.ValidationError(
                 _(
-                    "Since you've selected 'Other' for pronouns, please state what pronouns you go by. Limit: 100 characters."
+                    "Since you've selected 'Other' for pronouns, please state what pronouns you go by."
                 ),
                 code="free_response_pronouns",
+            )
+
+    # TODO: Wrote a new validator for the field "free_response_gender"
+    def handle_free_response_gender(self):
+        user_pronouns = self.cleaned_data["gender"]
+        user_free_response_pronouns = self.cleaned_data["free_response_gender"]
+        if user_pronouns == "prefer-to-self-describe" and not user_free_response_pronouns:
+            raise forms.ValidationError(
+                _(
+                    "Since you've selected 'Prefer to Self Describe' for gender, please state how you would like to be addressed"
+                ),
+                code="free_response_gender",
             )
 
     def save(self, commit=True):

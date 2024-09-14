@@ -40,6 +40,16 @@ class Application(models.Model):
         ("no-answer", "prefer not to answer"),
     ]
 
+    # TODO: Added a new field (Gender) here
+    GENDER_CHOICES = [
+        (None, ""),
+        ("man", "Man"),
+        ("woman", "Woman"),
+        ("non-binary", "Non-Binary"),
+        ("prefer-to-self-describe", "Prefer to Self-Describe"),
+        ("prefer-to-not-answer", "Prefer to not Answer"),
+    ]
+
     ETHNICITY_CHOICES = [
         (None, ""),
         ("american-native", "American Indian or Alaskan Native"),
@@ -90,13 +100,28 @@ class Application(models.Model):
     pronouns = models.CharField(
         max_length=50, choices=PRONOUN_CHOICES, null=False, default=""
     )
-    # TODO: New section here
+
+    # TODO: New section to allow people to specify pronouns (if selected "Other")
     free_response_pronouns = models.CharField(
         max_length=100,
         null=True,
         blank=True,
         default="",
-        help_text="If you selected 'Other', please specify your pronouns.",
+        help_text="If selected 'Other', please specify",
+    )
+
+    # TODO: New section for "Gender" dropdown
+    gender = models.CharField(
+        max_length=50, choices=GENDER_CHOICES, null=False, default=""
+    )
+
+    # TODO: New section to allow people to specify gender identification (if selected "Prefer to Self-Describe")
+    free_response_gender = models.CharField(
+        max_length=100,
+        null=True,
+        blank=True,
+        default="",
+        help_text="If you selected 'Prefer to Self-Describe', please specify.",
     )
 
     ethnicity = models.CharField(max_length=50, choices=ETHNICITY_CHOICES, null=False)
