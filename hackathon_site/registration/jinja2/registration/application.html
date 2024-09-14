@@ -42,14 +42,18 @@
     {{ render_field(form.free_response_pronouns, show_help_text_as_label=True, size="s12 m6 select2-wrapper") }}
     {#    TODO: New entry for gender section#}
     {{ render_field(form.gender, size="s12 m6 select2-wrapper") }}
-      {#    TODO: New entry for free response gender section#}
+    {#    TODO: New entry for free response gender section#}
     {{ render_field(form.free_response_gender, show_help_text_as_label=True, size="s12 m6 select2-wrapper") }}
-     {#    TODO: Commenting out the ethnicity section#}
-{#    {{ render_field(form.ethnicity, size="s12 m6 select2-wrapper") }}#}
+    {#    TODO: Commenting out the ethnicity section#}
+    {#    {{ render_field(form.ethnicity, size="s12 m6 select2-wrapper") }}#}
     {{ render_field(form.city, size="s12 m6 select2-wrapper added-country-margin formAddTopMargin") }}
     {{ render_field(form.country, size="s12 m6 select2-wrapper added-country-margin formAddTopMargin") }}
     {#    TODO: New section for T-shirt size#}
     {{ render_field(form.tshirt_size, size="s12 m6 select2-wrapper") }}
+    {#    TODO: New section for dietary restrictions#}
+    {{ render_field(form.dietary_restrictions, size="s12 m6 select2-wrapper") }}
+    {#    TODO: New entry for free response dietary restriction section#}
+    {{ render_field(form.free_response_dietary_restrictions, show_help_text_as_label=True, size="s12 m6 select2-wrapper") }}
 
     <div class="col s12">
         <h4>Education</h4>

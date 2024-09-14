@@ -50,17 +50,16 @@ class Application(models.Model):
         ("prefer-to-not-answer", "Prefer to not Answer"),
     ]
 
-    # TODO: Commenting out this choice
-    # ETHNICITY_CHOICES = [
-    #     (None, ""),
-    #     ("american-native", "American Indian or Alaskan Native"),
-    #     ("asian-pacific-islander", "Asian / Pacific Islander"),
-    #     ("black-african-american", "Black or African American"),
-    #     ("hispanic", "Hispanic"),
-    #     ("caucasian", "White / Caucasian"),
-    #     ("other", "Multiple ethnicity / Other"),
-    #     ("no-answer", "Prefer not to answer"),
-    # ]
+    ETHNICITY_CHOICES = [
+        (None, ""),
+        ("american-native", "American Indian or Alaskan Native"),
+        ("asian-pacific-islander", "Asian / Pacific Islander"),
+        ("black-african-american", "Black or African American"),
+        ("hispanic", "Hispanic"),
+        ("caucasian", "White / Caucasian"),
+        ("other", "Multiple ethnicity / Other"),
+        ("no-answer", "Prefer not to answer"),
+    ]
 
     # TODO: Adding T-shirt choices
     TSHIRT_SIZE_CHOICES = [
@@ -69,6 +68,20 @@ class Application(models.Model):
         ("M", "M"),
         ("L", "L"),
         ("XL", "XL"),
+    ]
+
+    # TODO: Adding dietary restriction choices
+    DIETARY_RESTRICTIONS_CHOICES = [
+        (None, ""),
+        ("none", "None"),
+        ("halal", "Halal"),
+        ("vegetarian", "Vegetarian"),
+        ("vegan", "Vegan"),
+        ("celiac-disease", "Celiac Disease"),
+        ("allergies", "Allergies"),
+        ("kosher", "Kosher"),
+        ("gluten-free", "Gluten Free"),
+        ("other", "Other"),
     ]
 
     STUDY_LEVEL_CHOICES = [
@@ -134,8 +147,8 @@ class Application(models.Model):
         help_text="If you selected 'Prefer to Self-Describe', please specify.",
     )
 
-    # TODO: Commenting out the ethnicity section
-    # ethnicity = models.CharField(max_length=50, choices=ETHNICITY_CHOICES, null=False)
+    # TODO: Making this ethnicity section OPTIONAL
+    ethnicity = models.CharField(max_length=50, choices=ETHNICITY_CHOICES, null=True, blank=True)
 
     phone_number = models.CharField(
         max_length=20,
@@ -155,6 +168,19 @@ class Application(models.Model):
         max_length=50, choices=TSHIRT_SIZE_CHOICES, null=False, default=""
     )
 
+    # TODO: Adding a "Dietary Restriction" section
+    dietary_restrictions = models.CharField(
+        max_length=50, choices=DIETARY_RESTRICTIONS_CHOICES, null=False, default=""
+    )
+
+    # TODO: New section to allow people to clarify dietary restrictions. Applicable if selected "Other" or "Allergies
+    free_response_dietary_restrictions = models.CharField(
+        max_length=100,
+        null=True,
+        blank=True,
+        default="",
+        help_text="If you selected 'Allergies' or 'Other', please specify.",
+    )
 
     school = models.CharField(max_length=255, null=False,)
     study_level = models.CharField(

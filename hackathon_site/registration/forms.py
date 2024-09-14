@@ -130,6 +130,8 @@ class ApplicationForm(forms.ModelForm):
             "city",
             "country",
             "tshirt_size", # TODO: New Section
+            "dietary_restrictions",  # TODO: New Section
+            "free_response_dietary_restrictions", #TODO: New Section
             "school",
             "study_level",
             "graduation_year",
@@ -203,6 +205,8 @@ class ApplicationForm(forms.ModelForm):
         self.handle_free_response_pronouns()
         # TODO: New line
         self.handle_free_response_gender()
+        # TODO: New line
+        self.handle_free_response_dietary_restrictions()
         return cleaned_data
 
     def clean_age(self):
@@ -231,14 +235,26 @@ class ApplicationForm(forms.ModelForm):
 
     # TODO: Wrote a new validator for the field "free_response_gender"
     def handle_free_response_gender(self):
-        user_pronouns = self.cleaned_data["gender"]
-        user_free_response_pronouns = self.cleaned_data["free_response_gender"]
-        if user_pronouns == "prefer-to-self-describe" and not user_free_response_pronouns:
+        user_gender = self.cleaned_data["gender"]
+        user_free_response_gender = self.cleaned_data["free_response_gender"]
+        if user_gender == "prefer-to-self-describe" and not user_free_response_gender:
             raise forms.ValidationError(
                 _(
                     "Since you've selected 'Prefer to Self Describe' for gender, please state how you would like to be addressed"
                 ),
                 code="free_response_gender",
+            )
+
+    # TODO: Wrote a new validator for the field "free_response_gender"
+    def handle_free_response_dietary_restrictions(self):
+        user_dietary_restrictions = self.cleaned_data["dietary_restrictions"]
+        user_free_response_dietary_restrictions = self.cleaned_data["free_response_dietary_restrictions"]
+        if ((user_dietary_restrictions == "allergies" or user_dietary_restrictions == "other") and not user_free_response_dietary_restrictions):
+            raise forms.ValidationError(
+                _(
+                    "Please provide more information about your dietary restrictions."
+                ),
+                code="free_response_dietary_restrictions",
             )
 
     def save(self, commit=True):
