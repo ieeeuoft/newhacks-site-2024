@@ -62,13 +62,7 @@ class Application(models.Model):
     ]
 
     # TODO: Adding T-shirt choices
-    TSHIRT_SIZE_CHOICES = [
-        (None, ""),
-        ("S", "S"),
-        ("M", "M"),
-        ("L", "L"),
-        ("XL", "XL"),
-    ]
+    TSHIRT_SIZE_CHOICES = [(None, ""), ("S", "S"), ("M", "M"), ("L", "L"), ("XL", "XL")]
 
     # TODO: Adding dietary restriction choices
     DIETARY_RESTRICTIONS_CHOICES = [
@@ -183,11 +177,8 @@ class Application(models.Model):
         default="",
         help_text="If you selected 'Allergies' or 'Other', please specify.",
     )
-    
-    school = models.CharField(
-        max_length=255,
-        null=False,
-    )
+
+    school = models.CharField(max_length=255, null=False)
     study_level = models.CharField(
         max_length=50,
         help_text="Level of Study",
