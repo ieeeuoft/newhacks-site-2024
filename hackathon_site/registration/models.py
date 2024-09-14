@@ -183,8 +183,7 @@ class Application(models.Model):
         default="",
         help_text="If you selected 'Allergies' or 'Other', please specify.",
     )
-    # THIS IS A DUMMY COMMENT
-    # TRYING TO TRIGGER BLACK FORMATTING
+    
     school = models.CharField(
         max_length=255,
         null=False,
