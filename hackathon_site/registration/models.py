@@ -148,7 +148,9 @@ class Application(models.Model):
     )
 
     # TODO: Making this ethnicity section OPTIONAL
-    ethnicity = models.CharField(max_length=50, choices=ETHNICITY_CHOICES, null=True, blank=True)
+    ethnicity = models.CharField(
+        max_length=50, choices=ETHNICITY_CHOICES, null=True, blank=True
+    )
 
     phone_number = models.CharField(
         max_length=20,
@@ -182,7 +184,10 @@ class Application(models.Model):
         help_text="If you selected 'Allergies' or 'Other', please specify.",
     )
 
-    school = models.CharField(max_length=255, null=False,)
+    school = models.CharField(
+        max_length=255,
+        null=False,
+    )
     study_level = models.CharField(
         max_length=50,
         help_text="Level of Study",
