@@ -62,6 +62,15 @@ class Application(models.Model):
     #     ("no-answer", "Prefer not to answer"),
     # ]
 
+    # TODO: Adding T-shirt choices
+    TSHIRT_SIZE_CHOICES = [
+        (None, ""),
+        ("S", "S"),
+        ("M", "M"),
+        ("L", "L"),
+        ("XL", "XL"),
+    ]
+
     STUDY_LEVEL_CHOICES = [
         (None, ""),
         ("less-than-secondary", "Less than Secondary / High School"),
@@ -127,6 +136,7 @@ class Application(models.Model):
 
     # TODO: Commenting out the ethnicity section
     # ethnicity = models.CharField(max_length=50, choices=ETHNICITY_CHOICES, null=False)
+
     phone_number = models.CharField(
         max_length=20,
         null=False,
@@ -139,6 +149,13 @@ class Application(models.Model):
     )
     city = models.CharField(max_length=255, null=False)
     country = models.CharField(max_length=255, null=False)
+
+    # TODO: Adding a "T-shirt" section
+    tshirt_size = models.CharField(
+        max_length=50, choices=TSHIRT_SIZE_CHOICES, null=False, default=""
+    )
+
+
     school = models.CharField(max_length=255, null=False,)
     study_level = models.CharField(
         max_length=50,

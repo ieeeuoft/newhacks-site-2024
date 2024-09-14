@@ -129,6 +129,7 @@ class ApplicationForm(forms.ModelForm):
             "phone_number",
             "city",
             "country",
+            "tshirt_size", # TODO: New Section
             "school",
             "study_level",
             "graduation_year",
