@@ -50,16 +50,17 @@ class Application(models.Model):
         ("prefer-to-not-answer", "Prefer to not Answer"),
     ]
 
-    ETHNICITY_CHOICES = [
-        (None, ""),
-        ("american-native", "American Indian or Alaskan Native"),
-        ("asian-pacific-islander", "Asian / Pacific Islander"),
-        ("black-african-american", "Black or African American"),
-        ("hispanic", "Hispanic"),
-        ("caucasian", "White / Caucasian"),
-        ("other", "Multiple ethnicity / Other"),
-        ("no-answer", "Prefer not to answer"),
-    ]
+    # TODO: Commenting out this choice
+    # ETHNICITY_CHOICES = [
+    #     (None, ""),
+    #     ("american-native", "American Indian or Alaskan Native"),
+    #     ("asian-pacific-islander", "Asian / Pacific Islander"),
+    #     ("black-african-american", "Black or African American"),
+    #     ("hispanic", "Hispanic"),
+    #     ("caucasian", "White / Caucasian"),
+    #     ("other", "Multiple ethnicity / Other"),
+    #     ("no-answer", "Prefer not to answer"),
+    # ]
 
     STUDY_LEVEL_CHOICES = [
         (None, ""),
@@ -124,7 +125,8 @@ class Application(models.Model):
         help_text="If you selected 'Prefer to Self-Describe', please specify.",
     )
 
-    ethnicity = models.CharField(max_length=50, choices=ETHNICITY_CHOICES, null=False)
+    # TODO: Commenting out the ethnicity section
+    # ethnicity = models.CharField(max_length=50, choices=ETHNICITY_CHOICES, null=False)
     phone_number = models.CharField(
         max_length=20,
         null=False,
