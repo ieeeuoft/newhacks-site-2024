@@ -132,6 +132,7 @@ class ApplicationForm(forms.ModelForm):
             "tshirt_size",  # TODO: New Section
             "dietary_restrictions",  # TODO: New Section
             "free_response_dietary_restrictions",  # TODO: New Section
+            "under_represented_group",  # TODO: New Section
             "school",
             "study_level",
             "graduation_year",

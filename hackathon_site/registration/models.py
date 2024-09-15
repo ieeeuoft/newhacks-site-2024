@@ -78,6 +78,14 @@ class Application(models.Model):
         ("other", "Other"),
     ]
 
+    # TODO: Adding UNDER_REPRESENTED_GROUP choices
+    UNDER_REPRESENTED_GROUP_CHOICES = [
+        (None, ""),
+        ("yes", "Yes"),
+        ("no", "No"),
+        ("unsure", "Unsure"),
+    ]
+
     STUDY_LEVEL_CHOICES = [
         (None, ""),
         ("less-than-secondary", "Less than Secondary / High School"),
@@ -176,6 +184,15 @@ class Application(models.Model):
         blank=True,
         default="",
         help_text="If you selected 'Allergies' or 'Other', please specify.",
+    )
+
+    # TODO: Adding a "Under-represented group" section
+    under_represented_group = models.CharField(
+        max_length=50,
+        choices=UNDER_REPRESENTED_GROUP_CHOICES,
+        null=False,
+        default="",
+        help_text="Are you in an underrepresented group in tech?",
     )
 
     school = models.CharField(max_length=255, null=False)
