@@ -86,6 +86,16 @@ class Application(models.Model):
         ("unsure", "Unsure"),
     ]
 
+    # TODO: Adding a SEXUAL_IDENTITY choices
+    SEXUAL_IDENTITY_CHOICES = [
+        (None, ""),
+        ("heterosexual-or-straight", "Heterosexual or straight"),
+        ("gay-or-lesbian", "Gay or lesbian"),
+        ("bisexual", "Bisexual"),
+        ("different-identity", "Different Identity"),
+        ("prefer-to-not-answer", "Prefer to not Answer"),
+    ]
+
     STUDY_LEVEL_CHOICES = [
         (None, ""),
         ("less-than-secondary", "Less than Secondary / High School"),
@@ -193,6 +203,24 @@ class Application(models.Model):
         null=False,
         default="",
         help_text="Are you in an underrepresented group in tech?",
+    )
+
+    # TODO: Adding a "sexual_identity" section
+    sexual_identity = models.CharField(
+        max_length=50,
+        choices=SEXUAL_IDENTITY_CHOICES,
+        null=False,
+        default="",
+        help_text="Do you consider yourself to be any of the following?",
+    )
+
+    # TODO: New section to allow people to specify sexual identity identification (if selected "Different Identity")
+    free_response_sexual_identity = models.CharField(
+        max_length=100,
+        null=True,
+        blank=True,
+        default="",
+        help_text="If you selected 'Different Identity', please specify.",
     )
 
     school = models.CharField(max_length=255, null=False)

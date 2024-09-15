@@ -133,6 +133,8 @@ class ApplicationForm(forms.ModelForm):
             "dietary_restrictions",  # TODO: New Section
             "free_response_dietary_restrictions",  # TODO: New Section
             "under_represented_group",  # TODO: New Section
+            "sexual_identity",  # TODO: New Section
+            "free_response_sexual_identity",  # TODO: New Section
             "school",
             "study_level",
             "graduation_year",
@@ -208,6 +210,8 @@ class ApplicationForm(forms.ModelForm):
         self.handle_free_response_gender()
         # TODO: New line
         self.handle_free_response_dietary_restrictions()
+        # TODO: New line
+        self.handle_free_response_sexual_identity()
         return cleaned_data
 
     def clean_age(self):
@@ -259,6 +263,23 @@ class ApplicationForm(forms.ModelForm):
             raise forms.ValidationError(
                 _("Please provide more information about your dietary restrictions."),
                 code="free_response_dietary_restrictions",
+            )
+
+    # TODO: Wrote a new validator for the field "sexual_identity"
+    def handle_free_response_sexual_identity(self):
+        user_sexual_identity = self.cleaned_data["sexual_identity"]
+        user_free_response_sexual_identity = self.cleaned_data[
+            "free_response_sexual_identity"
+        ]
+        if (
+            user_sexual_identity == "different-identity"
+            and not user_free_response_sexual_identity
+        ):
+            raise forms.ValidationError(
+                _(
+                    "You've selected 'Different Identity', please state how you would like to identify yourself"
+                ),
+                code="free_response_sexual_identity",
             )
 
     def save(self, commit=True):
