@@ -135,7 +135,7 @@ class ApplicationForm(forms.ModelForm):
             "under_represented_group",  # TODO: New Section
             "sexual_identity",  # TODO: New Section
             "free_response_sexual_identity",  # TODO: New Section
-            "highest_former_education",  # TODO: New Section
+            "highest_formal_education",  # TODO: New Section
             "free_response_highest_formal_education",  # TODO: New Section
             "school",
             "study_level",
@@ -288,7 +288,7 @@ class ApplicationForm(forms.ModelForm):
 
     # TODO: Wrote a new validator for the field "highest_formal_education"
     def handle_highest_formal_education(self):
-        user_highest_formal_education = self.cleaned_data["highest_former_education"]
+        user_highest_formal_education = self.cleaned_data["highest_formal_education"]
         user_free_response_highest_formal_education = self.cleaned_data[
             "free_response_highest_formal_education"
         ]
@@ -298,7 +298,7 @@ class ApplicationForm(forms.ModelForm):
         ):
             raise forms.ValidationError(
                 _(
-                    "You've selected 'Other' for education, please elaborate in the corresponding field."
+                    "You've selected 'Other' for highest formal education, please elaborate in the corresponding field."
                 ),
                 code="free_response_highest_formal_education",
             )

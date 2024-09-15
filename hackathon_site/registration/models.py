@@ -247,7 +247,7 @@ class Application(models.Model):
     )
 
     # TODO: Adding a "highest_former_education" level
-    highest_former_education = models.CharField(
+    highest_formal_education = models.CharField(
         max_length=50,
         choices=HIGHEST_FORMER_EDUCATION_CHOICES,
         null=False,
