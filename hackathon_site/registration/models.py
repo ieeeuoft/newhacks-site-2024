@@ -96,6 +96,29 @@ class Application(models.Model):
         ("prefer-to-not-answer", "Prefer to not Answer"),
     ]
 
+    # TODO: Adding a HIGHEST_FORMER_EDUCATION choice
+    HIGHEST_FORMER_EDUCATION_CHOICES = [
+        (None, ""),
+        ("less-than-secondary-or-high-school", "Less than Secondary / High School"),
+        ("secondary-or-high-school", "Secondary / High School"),
+        (
+            "post-secondary-2-years",
+            "2 year Undergraduate University or community college program",
+        ),
+        ("post-secondary-3-or-more-years", "3+ year Undergraduate University program"),
+        (
+            "graduate-university",
+            "Graduate University (Masters, Professional, Doctoral, etc)",
+        ),
+        ("code-school-or-bootcamp", "Code School / Bootcamp"),
+        (
+            "vocational-or-trades-or-apprenticeship",
+            "Other Vocational or Trade Program or Apprenticeship",
+        ),
+        ("other", "Other"),
+        ("prefer-to-not-answer", "Prefer to not answer"),
+    ]
+
     STUDY_LEVEL_CHOICES = [
         (None, ""),
         ("less-than-secondary", "Less than Secondary / High School"),
@@ -221,6 +244,24 @@ class Application(models.Model):
         blank=True,
         default="",
         help_text="If you selected 'Different Identity', please specify.",
+    )
+
+    # TODO: Adding a "highest_former_education" level
+    highest_former_education = models.CharField(
+        max_length=50,
+        choices=HIGHEST_FORMER_EDUCATION_CHOICES,
+        null=False,
+        default="",
+        help_text="What is your highest level of education completed?",
+    )
+
+    # TODO: New section to allow people to specify sexual identity identification (if selected "Different Identity")
+    free_response_highest_formal_education = models.CharField(
+        max_length=100,
+        null=True,
+        blank=True,
+        default="",
+        help_text="If you selected 'Other' for education, please specify.",
     )
 
     school = models.CharField(max_length=255, null=False)

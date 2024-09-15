@@ -135,6 +135,8 @@ class ApplicationForm(forms.ModelForm):
             "under_represented_group",  # TODO: New Section
             "sexual_identity",  # TODO: New Section
             "free_response_sexual_identity",  # TODO: New Section
+            "highest_former_education",  # TODO: New Section
+            "free_response_highest_formal_education",  # TODO: New Section
             "school",
             "study_level",
             "graduation_year",
@@ -212,6 +214,8 @@ class ApplicationForm(forms.ModelForm):
         self.handle_free_response_dietary_restrictions()
         # TODO: New line
         self.handle_free_response_sexual_identity()
+        # TODO: New line
+        self.handle_highest_formal_education()
         return cleaned_data
 
     def clean_age(self):
@@ -280,6 +284,23 @@ class ApplicationForm(forms.ModelForm):
                     "You've selected 'Different Identity', please state how you would like to identify yourself"
                 ),
                 code="free_response_sexual_identity",
+            )
+
+    # TODO: Wrote a new validator for the field "highest_formal_education"
+    def handle_highest_formal_education(self):
+        user_highest_formal_education = self.cleaned_data["highest_former_education"]
+        user_free_response_highest_formal_education = self.cleaned_data[
+            "free_response_highest_formal_education"
+        ]
+        if (
+            user_highest_formal_education == "other"
+            and not user_free_response_highest_formal_education
+        ):
+            raise forms.ValidationError(
+                _(
+                    "You've selected 'Other' for education, please elaborate in the corresponding field."
+                ),
+                code="free_response_highest_formal_education",
             )
 
     def save(self, commit=True):
