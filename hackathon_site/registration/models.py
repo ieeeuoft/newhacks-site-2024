@@ -121,20 +121,25 @@ class Application(models.Model):
 
     STUDY_LEVEL_CHOICES = [
         (None, ""),
-        ("less-than-secondary", "Less than Secondary / High School"),
-        ("secondary", "Secondary / High School"),
+        # ("less-than-secondary", "Less than Secondary / High School"),
+        # ("secondary", "Secondary / High School"),
+        # (
+        #     "undergraduate-2-year",
+        #     "Undergraduate University (2 year - community college or similar)",
+        # ),
+        # ("undergraduate-3-year", "Undergraduate University (3+ year)"),
         (
-            "undergraduate-2-year",
-            "Undergraduate University (2 year - community college or similar)",
+            "post-secondary-2-years",
+            "2 year Undergraduate University or community college program",
         ),
-        ("undergraduate-3-year", "Undergraduate University (3+ year)"),
+        ("post-secondary-3-or-more-years", "3+ year Undergraduate University program"),
         ("graduate", "Graduate University (Masters, Professional, Doctoral, etc)"),
-        ("code-school", "Code School / Bootcamp"),
-        ("vocational", "Other Vocational / Trade Program or Apprenticeship"),
-        ("post-doctorate", "Post Doctorate"),
+        # ("code-school", "Code School / Bootcamp"),
+        # ("vocational", "Other Vocational / Trade Program or Apprenticeship"),
+        # ("post-doctorate", "Post Doctorate"),
         ("other", "Other"),
-        ("not-a-student", "I’m not currently a student"),
-        ("no-answer", "Prefer not to answer"),
+        # ("not-a-student", "I’m not currently a student"),
+        # ("no-answer", "Prefer not to answer"),
     ]
 
     AGE_CHOICES = [
@@ -267,7 +272,7 @@ class Application(models.Model):
     school = models.CharField(max_length=255, null=False)
     study_level = models.CharField(
         max_length=50,
-        help_text="Level of Study",
+        help_text="Current level of study",
         choices=STUDY_LEVEL_CHOICES,
         null=False,
     )

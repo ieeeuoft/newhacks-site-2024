@@ -69,7 +69,7 @@
         <h4>Education</h4>
     </div>
     {{ render_field(form.school, size="s12 m6 select2-wrapper") }}
-    {{ render_field(form.study_level, size="s12 m6 select2-wrapper") }}
+    {{ render_field(form.study_level, show_help_text_as_label=True, size="s12 m6 select2-wrapper") }}
     {{ render_field(form.graduation_year, size="s12 m6 select2-wrapper") }}
     {{ render_field(form.program, size="s12 m6 select2-wrapper", show_help_text_as_label=True) }}
 
