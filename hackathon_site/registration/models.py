@@ -152,6 +152,17 @@ class Application(models.Model):
         (23, "22+"),
     ]
 
+    # TODO: Adding new hackathon number choices
+    HACKATHON_NUMBER_CHOICES = [
+        (None, ""),
+        ("0", "0"),
+        ("1", "1"),
+        ("2", "2"),
+        ("3", "3"),
+        ("4", "4"),
+        ("5 or more", "5 or more"),
+    ]
+
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=False)
     team = models.ForeignKey(
         Team, related_name="applications", on_delete=models.CASCADE, null=False
@@ -307,6 +318,14 @@ class Application(models.Model):
     )
     devpost = models.URLField(
         max_length=200, help_text="Devpost Profile (Optional)", null=True, blank=True
+    )
+    # TODO: New question
+    how_many_hackathons = models.TextField(
+        null=False,
+        default="",
+        help_text="How many hackathons have you been to?",
+        choices=HACKATHON_NUMBER_CHOICES,
+        max_length=100,
     )
     why_participate = models.TextField(
         null=False,

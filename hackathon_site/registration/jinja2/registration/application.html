@@ -84,6 +84,7 @@
     <div class="col s12">
         <h4>Questions</h4>
     </div>
+    {{ render_field(form.how_many_hackathons, show_help_text_as_label=True, size="s12 select2-wrapper") }}
     {{ render_field(form.why_participate, show_help_text_as_label=True) }}
     {{ render_field(form.what_technical_experience, show_help_text_as_label=True) }}
     {{ render_field(form.what_past_experience, show_help_text_as_label=True) }}
