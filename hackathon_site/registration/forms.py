@@ -145,7 +145,7 @@ class ApplicationForm(forms.ModelForm):
             "linkedin",
             "github",
             "devpost",
-            "how_many_hackathons", # TODO: New Section
+            "how_many_hackathons",  # TODO: New Section
             "why_participate",
             "what_technical_experience",
             "what_past_experience",
