@@ -341,7 +341,7 @@ class Application(models.Model):
     )
     what_technical_experience = models.TextField(
         null=False,
-        help_text="What is your technical experience with software?",
+        help_text="What is your technical experience with software and hardware?",
         max_length=1000,
     )
     what_past_experience = models.TextField(

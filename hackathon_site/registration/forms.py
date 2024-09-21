@@ -179,7 +179,7 @@ class ApplicationForm(forms.ModelForm):
             "what_technical_experience": forms.Textarea(
                 attrs={
                     "class": "materialize-textarea",
-                    "placeholder": "My technical experience with software are...",
+                    "placeholder": "My technical experience with software and hardware are...",
                     "data-length": 1000,
                 }
             ),
