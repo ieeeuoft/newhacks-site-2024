@@ -146,6 +146,7 @@ class ApplicationForm(forms.ModelForm):
             "github",
             "devpost",
             "how_many_hackathons",  # TODO: New Section
+            "past_hackathon_info",  # TODO: New Section
             "why_participate",
             "what_technical_experience",
             "what_past_experience",
@@ -161,6 +162,13 @@ class ApplicationForm(forms.ModelForm):
                 choices=((None, ""),),
             ),
             "resume": MaterialFileInput(),
+            "past_hackathon_info": forms.Textarea(
+                attrs={
+                    "class": "materialize-textarea",
+                    "placeholder": "Insert past hackathon description here...",
+                    "data-length": 1000,
+                }
+            ),
             "why_participate": forms.Textarea(
                 attrs={
                     "class": "materialize-textarea",

@@ -200,7 +200,7 @@ class Application(models.Model):
 
     # TODO: Making this ethnicity section OPTIONAL
     ethnicity = models.CharField(
-        max_length=50, choices=ETHNICITY_CHOICES, null=True, blank=True
+        max_length=50, choices=ETHNICITY_CHOICES, null=False, blank=True, default=""
     )
 
     phone_number = models.CharField(
@@ -326,6 +326,13 @@ class Application(models.Model):
         help_text="How many hackathons have you been to?",
         choices=HACKATHON_NUMBER_CHOICES,
         max_length=100,
+    )
+    # TODO: New field
+    past_hackathon_info = models.TextField(
+        null=False,
+        default="",
+        help_text="If you've been to prior hackathon(s), please indicate the hackathon name, your project name and any prizes you won.",
+        max_length=1000,
     )
     why_participate = models.TextField(
         null=False,

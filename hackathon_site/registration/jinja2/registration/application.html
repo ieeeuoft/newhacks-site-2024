@@ -85,6 +85,7 @@
         <h4>Questions</h4>
     </div>
     {{ render_field(form.how_many_hackathons, show_help_text_as_label=True, size="s12 select2-wrapper") }}
+    {{ render_field(form.past_hackathon_info, show_help_text_as_label=True) }}
     {{ render_field(form.why_participate, show_help_text_as_label=True) }}
     {{ render_field(form.what_technical_experience, show_help_text_as_label=True) }}
     {{ render_field(form.what_past_experience, show_help_text_as_label=True) }}
@@ -152,6 +153,7 @@
                     e.stopPropagation();
                 });
             });
+            $("#id_past_hackathon_info, #id_what_hackathon_experience, #id_why_participate, #id_what_technical_experience").characterCounter(); // TODO: TEMPORARY LINE
 
             // on first focus (bubbles up to document), open the menu
             // https://stackoverflow.com/a/49261426/3882202
