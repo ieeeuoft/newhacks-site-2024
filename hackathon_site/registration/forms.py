@@ -147,9 +147,10 @@ class ApplicationForm(forms.ModelForm):
             "devpost",
             "how_many_hackathons",  # TODO: New Section
             "past_hackathon_info",  # TODO: New Section
+            "what_past_experience",
             "why_participate",
             "what_technical_experience",
-            "what_past_experience",
+            "what_role_in_team_setting",
             "conduct_agree",
             "logistics_agree",
             "email_agree",
@@ -188,6 +189,13 @@ class ApplicationForm(forms.ModelForm):
                 attrs={
                     "class": "materialize-textarea",
                     "placeholder": "My technical experience with software and hardware are...",
+                    "data-length": 1000,
+                }
+            ),
+            "what_role_in_team_setting": forms.Textarea(
+                attrs={
+                    "class": "materialize-textarea",
+                    "placeholder": "I take on the role of...",
                     "data-length": 1000,
                 }
             ),

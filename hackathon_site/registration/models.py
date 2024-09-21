@@ -349,6 +349,13 @@ class Application(models.Model):
         help_text="What is your technical experience with software and hardware?",
         max_length=1000,
     )
+    # TODO: New Field
+    what_role_in_team_setting = models.TextField(
+        null=False,
+        default="",
+        help_text="What role do you typically take on in a team setting? Give an example of how you contributed to team success.",
+        max_length=1000,
+    )
     conduct_agree = models.BooleanField(
         help_text="I have read and agree to the "
         '<a href="https://static.mlh.io/docs/mlh-code-of-conduct.pdf" rel="noopener noreferrer" target="_blank">MLH code of conduct</a>.',

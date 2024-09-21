@@ -89,6 +89,7 @@
     {{ render_field(form.what_past_experience, show_help_text_as_label=True) }}
     {{ render_field(form.why_participate, show_help_text_as_label=True) }}
     {{ render_field(form.what_technical_experience, show_help_text_as_label=True) }}
+    {{ render_field(form.what_role_in_team_setting, show_help_text_as_label=True) }}
 
     <div class="col s12">
         <p>We are currently in the process of partnering with MLH. The following 3 checkboxes are for this partnership. If we do not end up partnering with MLH, your information will not be shared.</p>
@@ -153,7 +154,7 @@
                     e.stopPropagation();
                 });
             });
-            $("#id_past_hackathon_info, #id_what_hackathon_experience, #id_why_participate, #id_what_technical_experience").characterCounter(); // TODO: TEMPORARY LINE
+            $("#id_what_role_in_team_setting, #id_past_hackathon_info, #id_what_hackathon_experience, #id_why_participate, #id_what_technical_experience").characterCounter(); // TODO: TEMPORARY LINE
 
             // on first focus (bubbles up to document), open the menu
             // https://stackoverflow.com/a/49261426/3882202
