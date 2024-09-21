@@ -169,6 +169,14 @@ class ApplicationForm(forms.ModelForm):
                     "data-length": 1000,
                 }
             ),
+            "what_past_experience": forms.Textarea(
+                attrs={
+                    "class": "materialize-textarea",
+                    "placeholder": "Insert answer here...",
+                    "data-length": 1000,
+                    "style": "padding-top: 38px;",  # TODO: Added padding
+                }
+            ),
             "why_participate": forms.Textarea(
                 attrs={
                     "class": "materialize-textarea",
@@ -180,13 +188,6 @@ class ApplicationForm(forms.ModelForm):
                 attrs={
                     "class": "materialize-textarea",
                     "placeholder": "My technical experience with software and hardware are...",
-                    "data-length": 1000,
-                }
-            ),
-            "what_past_experience": forms.Textarea(
-                attrs={
-                    "class": "materialize-textarea",
-                    "placeholder": "My past experiences are...",
                     "data-length": 1000,
                 }
             ),

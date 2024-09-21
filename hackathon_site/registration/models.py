@@ -334,6 +334,11 @@ class Application(models.Model):
         help_text="If you've been to prior hackathon(s), please indicate the hackathon name, your project name and any prizes you won.",
         max_length=1000,
     )
+    what_past_experience = models.TextField(
+        null=False,
+        help_text="If you’ve been to a hackathon, what is your most memorable moment or challenge you faced? How did you overcome it? If not, what excites you most about attending your first hackathon and what do you hope to achieve and experience?",
+        max_length=1000,
+    )
     why_participate = models.TextField(
         null=False,
         help_text="Why do you want to participate in NewHacks?",
@@ -342,11 +347,6 @@ class Application(models.Model):
     what_technical_experience = models.TextField(
         null=False,
         help_text="What is your technical experience with software and hardware?",
-        max_length=1000,
-    )
-    what_past_experience = models.TextField(
-        null=False,
-        help_text="If you’ve been to a hackathon, briefly tell us your experience. If not, describe what you expect to see and experience.",
         max_length=1000,
     )
     conduct_agree = models.BooleanField(
