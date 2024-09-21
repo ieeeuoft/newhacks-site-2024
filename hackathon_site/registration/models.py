@@ -162,6 +162,16 @@ class Application(models.Model):
         ("4", "4"),
         ("5 or more", "5 or more"),
     ]
+    # TODO: Adding new discovery choices
+    REFERRAL_CHOICES = [
+        (None, ""),
+        ("instagram", "Instagram"),
+        ("in class/from a professor", "In Class/From a professor"),
+        ("discord", "Discord"),
+        ("email", "Email"),
+        ("from a friend", "From a friend"),
+        ("other", "Other"),
+    ]
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=False)
     team = models.ForeignKey(
@@ -176,8 +186,8 @@ class Application(models.Model):
     )
 
     # TODO: New section to allow people to specify pronouns (if selected "Other")
-    free_response_pronouns = models.CharField(
-        max_length=100,
+    free_response_pronouns = models.TextField(
+        max_length=200,
         null=True,
         blank=True,
         default="",
@@ -190,8 +200,8 @@ class Application(models.Model):
     )
 
     # TODO: New section to allow people to specify gender identification (if selected "Prefer to Self-Describe")
-    free_response_gender = models.CharField(
-        max_length=100,
+    free_response_gender = models.TextField(
+        max_length=200,
         null=True,
         blank=True,
         default="",
@@ -227,8 +237,8 @@ class Application(models.Model):
     )
 
     # TODO: New section to allow people to clarify dietary restrictions if selected "Other" or "Allergies
-    free_response_dietary_restrictions = models.CharField(
-        max_length=100,
+    free_response_dietary_restrictions = models.TextField(
+        max_length=200,
         null=True,
         blank=True,
         default="",
@@ -254,8 +264,8 @@ class Application(models.Model):
     )
 
     # TODO: New section to allow people to specify sexual identity identification (if selected "Different Identity")
-    free_response_sexual_identity = models.CharField(
-        max_length=100,
+    free_response_sexual_identity = models.TextField(
+        max_length=200,
         null=True,
         blank=True,
         default="",
@@ -272,8 +282,8 @@ class Application(models.Model):
     )
 
     # TODO: New section to allow people to specify sexual identity identification (if selected "Different Identity")
-    free_response_highest_formal_education = models.CharField(
-        max_length=100,
+    free_response_highest_formal_education = models.TextField(
+        max_length=200,
         null=True,
         blank=True,
         default="",
@@ -355,6 +365,14 @@ class Application(models.Model):
         default="",
         help_text="What role do you typically take on in a team setting? Give an example of how you contributed to team success.",
         max_length=1000,
+    )
+    # TODO: New Field
+    discovery_method = models.TextField(
+        null=False,
+        default="",
+        help_text="How did you hear about NewHacks?",
+        choices=REFERRAL_CHOICES,
+        max_length=100,
     )
     conduct_agree = models.BooleanField(
         help_text="I have read and agree to the "

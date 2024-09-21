@@ -151,6 +151,7 @@ class ApplicationForm(forms.ModelForm):
             "why_participate",
             "what_technical_experience",
             "what_role_in_team_setting",
+            "discovery_method",  # TODO: New Section
             "conduct_agree",
             "logistics_agree",
             "email_agree",
@@ -163,6 +164,21 @@ class ApplicationForm(forms.ModelForm):
                 choices=((None, ""),),
             ),
             "resume": MaterialFileInput(),
+            "free_response_pronouns": forms.Textarea(
+                attrs={"class": "materialize-textarea", "data-length": 200}
+            ),
+            "free_response_gender": forms.Textarea(
+                attrs={"class": "materialize-textarea", "data-length": 200}
+            ),
+            "free_response_sexual_identity": forms.Textarea(
+                attrs={"class": "materialize-textarea", "data-length": 200}
+            ),
+            "free_response_dietary_restrictions": forms.Textarea(
+                attrs={"class": "materialize-textarea", "data-length": 200}
+            ),
+            "free_response_highest_formal_education": forms.Textarea(
+                attrs={"class": "materialize-textarea", "data-length": 200}
+            ),
             "past_hackathon_info": forms.Textarea(
                 attrs={
                     "class": "materialize-textarea",
