@@ -58,7 +58,6 @@ class Application(models.Model):
         ("no-answer", "Prefer not to answer"),
     ]
 
-    # TODO: Adding T-shirt choices
     TSHIRT_SIZE_CHOICES = [(None, ""), ("S", "S"), ("M", "M"), ("L", "L"), ("XL", "XL")]
 
     # TODO: Adding dietary restriction choices
@@ -75,7 +74,6 @@ class Application(models.Model):
         ("other", "Other"),
     ]
 
-    # TODO: Adding UNDER_REPRESENTED_GROUP choices
     UNDER_REPRESENTED_GROUP_CHOICES = [
         (None, ""),
         ("yes", "Yes"),
@@ -219,7 +217,6 @@ class Application(models.Model):
     city = models.CharField(max_length=255, null=False)
     country = models.CharField(max_length=255, null=False)
 
-    # TODO: Adding a "T-shirt" section
     tshirt_size = models.CharField(
         max_length=50, choices=TSHIRT_SIZE_CHOICES, null=False, default=""
     )
@@ -238,7 +235,6 @@ class Application(models.Model):
         help_text="If you selected 'Allergies' or 'Other', please specify.",
     )
 
-    # TODO: Adding a "Under-represented group" section
     under_represented_group = models.CharField(
         max_length=50,
         choices=UNDER_REPRESENTED_GROUP_CHOICES,

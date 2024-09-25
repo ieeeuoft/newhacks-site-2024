@@ -129,10 +129,10 @@ class ApplicationForm(forms.ModelForm):
             "phone_number",
             "city",
             "country",
-            "tshirt_size",  # TODO: New Section
+            "tshirt_size",
             "dietary_restrictions",  # TODO: New Section
             "free_response_dietary_restrictions",  # TODO: New Section
-            "under_represented_group",  # TODO: New Section
+            "under_represented_group",
             "sexual_identity",  # TODO: New Section
             "free_response_sexual_identity",  # TODO: New Section
             "highest_formal_education",  # TODO: New Section
