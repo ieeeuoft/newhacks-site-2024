@@ -122,7 +122,7 @@ class ApplicationForm(forms.ModelForm):
         fields = [
             "age",
             "pronouns",
-            "free_response_pronouns",  # TODO: New Section
+            "free_response_pronouns",
             "gender",  # TODO : New Section
             "free_response_gender",  # TODO : New Section
             # "ethnicity", # TODO: Commenting out this section
@@ -237,10 +237,7 @@ class ApplicationForm(forms.ModelForm):
             raise forms.ValidationError(
                 _("User has already submitted an application."), code="invalid"
             )
-
-        # TODO: New line (calling an existing method that was never called.... for some reason?)
         self.clean_age()
-        # TODO: New line
         self.handle_free_response_pronouns()
         # TODO: New line
         self.handle_free_response_gender()
@@ -264,7 +261,6 @@ class ApplicationForm(forms.ModelForm):
             )
         return user_age
 
-    # TODO: Wrote a new validator for the field "free_response_pronouns"
     def handle_free_response_pronouns(self):
         user_pronouns = self.cleaned_data["pronouns"]
         user_free_response_pronouns = self.cleaned_data["free_response_pronouns"]

@@ -28,7 +28,6 @@ class Team(models.Model):
 
 
 class Application(models.Model):
-    # TODO: Added 2 new pronoun choices here
     PRONOUN_CHOICES = [
         (None, ""),
         ("he-him", "he/him"),
@@ -184,8 +183,6 @@ class Application(models.Model):
     pronouns = models.CharField(
         max_length=50, choices=PRONOUN_CHOICES, null=False, default=""
     )
-
-    # TODO: New section to allow people to specify pronouns (if selected "Other")
     free_response_pronouns = models.TextField(
         max_length=200,
         null=True,
