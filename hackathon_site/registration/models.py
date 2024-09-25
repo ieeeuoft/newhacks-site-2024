@@ -38,8 +38,6 @@ class Application(models.Model):
         ("other", "other"),
         ("no-answer", "prefer not to answer"),
     ]
-
-    # TODO: Added a new field (Gender) here
     GENDER_CHOICES = [
         (None, ""),
         ("man", "Man"),
@@ -190,8 +188,6 @@ class Application(models.Model):
         default="",
         help_text="If selected 'Other', please specify",
     )
-
-    # TODO: New section for "Gender" dropdown
     gender = models.CharField(
         max_length=50, choices=GENDER_CHOICES, null=False, default=""
     )

@@ -123,8 +123,8 @@ class ApplicationForm(forms.ModelForm):
             "age",
             "pronouns",
             "free_response_pronouns",
-            "gender",  # TODO : New Section
-            "free_response_gender",  # TODO : New Section
+            "gender",
+            "free_response_gender",
             # "ethnicity", # TODO: Commenting out this section
             "phone_number",
             "city",
@@ -239,7 +239,6 @@ class ApplicationForm(forms.ModelForm):
             )
         self.clean_age()
         self.handle_free_response_pronouns()
-        # TODO: New line
         self.handle_free_response_gender()
         # TODO: New line
         self.handle_free_response_dietary_restrictions()
@@ -272,7 +271,6 @@ class ApplicationForm(forms.ModelForm):
                 code="free_response_pronouns",
             )
 
-    # TODO: Wrote a new validator for the field "free_response_gender"
     def handle_free_response_gender(self):
         user_gender = self.cleaned_data["gender"]
         user_free_response_gender = self.cleaned_data["free_response_gender"]
