@@ -130,13 +130,13 @@ class ApplicationForm(forms.ModelForm):
             "city",
             "country",
             "tshirt_size",
-            "dietary_restrictions",  # TODO: New Section
-            "free_response_dietary_restrictions",  # TODO: New Section
+            "dietary_restrictions",
+            "free_response_dietary_restrictions",
             "under_represented_group",
-            "sexual_identity",  # TODO: New Section
-            "free_response_sexual_identity",  # TODO: New Section
-            "highest_formal_education",  # TODO: New Section
-            "free_response_highest_formal_education",  # TODO: New Section
+            "sexual_identity",
+            "free_response_sexual_identity",
+            "highest_formal_education",
+            "free_response_highest_formal_education",
             "school",
             "study_level",
             "graduation_year",
@@ -240,11 +240,8 @@ class ApplicationForm(forms.ModelForm):
         self.clean_age()
         self.handle_free_response_pronouns()
         self.handle_free_response_gender()
-        # TODO: New line
-        self.handle_free_response_dietary_restrictions()
-        # TODO: New line
         self.handle_free_response_sexual_identity()
-        # TODO: New line
+        self.handle_free_response_dietary_restrictions()
         self.handle_highest_formal_education()
         return cleaned_data
 
@@ -282,7 +279,6 @@ class ApplicationForm(forms.ModelForm):
                 code="free_response_gender",
             )
 
-    # TODO: Wrote a new validator for the field "free_response_gender"
     def handle_free_response_dietary_restrictions(self):
         user_dietary_restrictions = self.cleaned_data["dietary_restrictions"]
         user_free_response_dietary_restrictions = self.cleaned_data[
@@ -297,7 +293,6 @@ class ApplicationForm(forms.ModelForm):
                 code="free_response_dietary_restrictions",
             )
 
-    # TODO: Wrote a new validator for the field "sexual_identity"
     def handle_free_response_sexual_identity(self):
         user_sexual_identity = self.cleaned_data["sexual_identity"]
         user_free_response_sexual_identity = self.cleaned_data[
@@ -314,7 +309,6 @@ class ApplicationForm(forms.ModelForm):
                 code="free_response_sexual_identity",
             )
 
-    # TODO: Wrote a new validator for the field "highest_formal_education"
     def handle_highest_formal_education(self):
         user_highest_formal_education = self.cleaned_data["highest_formal_education"]
         user_free_response_highest_formal_education = self.cleaned_data[

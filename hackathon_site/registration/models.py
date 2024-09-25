@@ -60,7 +60,6 @@ class Application(models.Model):
 
     TSHIRT_SIZE_CHOICES = [(None, ""), ("S", "S"), ("M", "M"), ("L", "L"), ("XL", "XL")]
 
-    # TODO: Adding dietary restriction choices
     DIETARY_RESTRICTIONS_CHOICES = [
         (None, ""),
         ("none", "None"),
@@ -81,7 +80,6 @@ class Application(models.Model):
         ("unsure", "Unsure"),
     ]
 
-    # TODO: Adding a SEXUAL_IDENTITY choices
     SEXUAL_IDENTITY_CHOICES = [
         (None, ""),
         ("heterosexual-or-straight", "Heterosexual or straight"),
@@ -91,7 +89,6 @@ class Application(models.Model):
         ("prefer-to-not-answer", "Prefer to not Answer"),
     ]
 
-    # TODO: Adding a HIGHEST_FORMER_EDUCATION choice
     HIGHEST_FORMER_EDUCATION_CHOICES = [
         (None, ""),
         ("less-than-secondary-or-high-school", "Less than Secondary / High School"),
@@ -190,7 +187,6 @@ class Application(models.Model):
         max_length=50, choices=GENDER_CHOICES, null=False, default=""
     )
 
-    # TODO: New section to allow people to specify gender identification (if selected "Prefer to Self-Describe")
     free_response_gender = models.TextField(
         max_length=200,
         null=True,
@@ -221,12 +217,10 @@ class Application(models.Model):
         max_length=50, choices=TSHIRT_SIZE_CHOICES, null=False, default=""
     )
 
-    # TODO: Adding a "Dietary Restriction" section
     dietary_restrictions = models.CharField(
         max_length=50, choices=DIETARY_RESTRICTIONS_CHOICES, null=False, default=""
     )
 
-    # TODO: New section to allow people to clarify dietary restrictions if selected "Other" or "Allergies
     free_response_dietary_restrictions = models.TextField(
         max_length=200,
         null=True,
@@ -243,7 +237,6 @@ class Application(models.Model):
         help_text="Are you in an underrepresented group in tech?",
     )
 
-    # TODO: Adding a "sexual_identity" section
     sexual_identity = models.CharField(
         max_length=50,
         choices=SEXUAL_IDENTITY_CHOICES,
@@ -252,7 +245,6 @@ class Application(models.Model):
         help_text="Do you consider yourself to be any of the following?",
     )
 
-    # TODO: New section to allow people to specify sexual identity identification (if selected "Different Identity")
     free_response_sexual_identity = models.TextField(
         max_length=200,
         null=True,
@@ -261,7 +253,6 @@ class Application(models.Model):
         help_text="If you selected 'Different Identity', please specify.",
     )
 
-    # TODO: Adding a "highest_former_education" level
     highest_formal_education = models.CharField(
         max_length=50,
         choices=HIGHEST_FORMER_EDUCATION_CHOICES,
@@ -270,7 +261,6 @@ class Application(models.Model):
         help_text="What is your highest level of education completed?",
     )
 
-    # TODO: New section to allow people to specify sexual identity identification (if selected "Different Identity")
     free_response_highest_formal_education = models.TextField(
         max_length=200,
         null=True,
