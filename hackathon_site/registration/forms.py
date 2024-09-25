@@ -145,13 +145,13 @@ class ApplicationForm(forms.ModelForm):
             "linkedin",
             "github",
             "devpost",
-            "how_many_hackathons",  # TODO: New Section
-            "past_hackathon_info",  # TODO: New Section
+            "how_many_hackathons",
+            "past_hackathon_info",
             "what_past_experience",
             "why_participate",
             "what_technical_experience",
             "what_role_in_team_setting",
-            "discovery_method",  # TODO: New Section
+            "discovery_method",
             "conduct_agree",
             "logistics_agree",
             "email_agree",
@@ -191,7 +191,7 @@ class ApplicationForm(forms.ModelForm):
                     "class": "materialize-textarea",
                     "placeholder": "Insert answer here...",
                     "data-length": 1000,
-                    "style": "padding-top: 38px;",  # TODO: Added padding
+                    "style": "padding-top: 38px;",
                 }
             ),
             "why_participate": forms.Textarea(

@@ -144,7 +144,6 @@ class Application(models.Model):
         (23, "22+"),
     ]
 
-    # TODO: Adding new hackathon number choices
     HACKATHON_NUMBER_CHOICES = [
         (None, ""),
         ("0", "0"),
@@ -154,7 +153,6 @@ class Application(models.Model):
         ("4", "4"),
         ("5 or more", "5 or more"),
     ]
-    # TODO: Adding new discovery choices
     REFERRAL_CHOICES = [
         (None, ""),
         ("instagram", "Instagram"),
@@ -308,7 +306,6 @@ class Application(models.Model):
     devpost = models.URLField(
         max_length=200, help_text="Devpost Profile (Optional)", null=True, blank=True
     )
-    # TODO: New question
     how_many_hackathons = models.TextField(
         null=False,
         default="",
@@ -316,7 +313,6 @@ class Application(models.Model):
         choices=HACKATHON_NUMBER_CHOICES,
         max_length=100,
     )
-    # TODO: New field
     past_hackathon_info = models.TextField(
         null=False,
         default="",
@@ -338,14 +334,12 @@ class Application(models.Model):
         help_text="What is your technical experience with software and hardware?",
         max_length=1000,
     )
-    # TODO: New Field
     what_role_in_team_setting = models.TextField(
         null=False,
         default="",
         help_text="What role do you typically take on in a team setting? Give an example of how you contributed to team success.",
         max_length=1000,
     )
-    # TODO: New Field
     discovery_method = models.TextField(
         null=False,
         default="",
