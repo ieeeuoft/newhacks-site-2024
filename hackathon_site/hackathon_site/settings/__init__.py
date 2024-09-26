@@ -315,7 +315,9 @@ CONTACT_EMAIL = DEFAULT_FROM_EMAIL
 HSS_ADMIN_EMAIL = "hardware@newhacks.ca"
 
 REGISTRATION_OPEN_DATE = datetime(2024, 1, 18, 0, 0, 0, tzinfo=TZ_INFO)
-REGISTRATION_CLOSE_DATE = datetime(2024, 10, 11, 23, 59, 0, tzinfo=TZ_INFO)
+REGISTRATION_CLOSE_DATE = datetime(
+    2024, 10, 11, 23, 59, 0, tzinfo=TZ_INFO
+)  # TODO: When does registration close (need an exact date)
 APPLICATION_OPEN_DATE = datetime(2024, 9, 25, 0, 0, 0, tzinfo=TZ_INFO)
 EVENT_START_DATE = datetime(2024, 10, 26, 8, 0, 0, tzinfo=TZ_INFO)
 EVENT_END_DATE = datetime(2024, 10, 27, 17, 0, 0, tzinfo=TZ_INFO)
