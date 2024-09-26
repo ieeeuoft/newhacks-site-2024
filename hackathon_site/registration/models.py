@@ -192,8 +192,6 @@ class Application(models.Model):
         default="",
         help_text="If you selected 'Prefer to Self-Describe', please specify.",
     )
-
-    # TODO: Making this ethnicity section OPTIONAL
     ethnicity = models.CharField(
         max_length=50, choices=ETHNICITY_CHOICES, null=False, blank=True, default=""
     )

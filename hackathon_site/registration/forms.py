@@ -125,7 +125,7 @@ class ApplicationForm(forms.ModelForm):
             "free_response_pronouns",
             "gender",
             "free_response_gender",
-            # "ethnicity", # TODO: Commenting out this section
+            # "ethnicity",
             "phone_number",
             "city",
             "country",
