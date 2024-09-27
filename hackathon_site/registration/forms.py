@@ -122,10 +122,21 @@ class ApplicationForm(forms.ModelForm):
         fields = [
             "age",
             "pronouns",
-            "ethnicity",
+            "free_response_pronouns",
+            "gender",
+            "free_response_gender",
+            # "ethnicity",
             "phone_number",
             "city",
             "country",
+            "tshirt_size",
+            "dietary_restrictions",
+            "free_response_dietary_restrictions",
+            "under_represented_group",
+            "sexual_identity",
+            "free_response_sexual_identity",
+            "highest_formal_education",
+            "free_response_highest_formal_education",
             "school",
             "study_level",
             "graduation_year",
@@ -134,9 +145,13 @@ class ApplicationForm(forms.ModelForm):
             "linkedin",
             "github",
             "devpost",
+            "how_many_hackathons",
+            "past_hackathon_info",
+            "what_past_experience",
             "why_participate",
             "what_technical_experience",
-            "what_past_experience",
+            "what_role_in_team_setting",
+            "discovery_method",
             "conduct_agree",
             "logistics_agree",
             "email_agree",
@@ -149,6 +164,36 @@ class ApplicationForm(forms.ModelForm):
                 choices=((None, ""),),
             ),
             "resume": MaterialFileInput(),
+            "free_response_pronouns": forms.Textarea(
+                attrs={"class": "materialize-textarea", "data-length": 200}
+            ),
+            "free_response_gender": forms.Textarea(
+                attrs={"class": "materialize-textarea", "data-length": 200}
+            ),
+            "free_response_sexual_identity": forms.Textarea(
+                attrs={"class": "materialize-textarea", "data-length": 200}
+            ),
+            "free_response_dietary_restrictions": forms.Textarea(
+                attrs={"class": "materialize-textarea", "data-length": 200}
+            ),
+            "free_response_highest_formal_education": forms.Textarea(
+                attrs={"class": "materialize-textarea", "data-length": 200}
+            ),
+            "past_hackathon_info": forms.Textarea(
+                attrs={
+                    "class": "materialize-textarea",
+                    "placeholder": "Insert past hackathon description here...",
+                    "data-length": 1000,
+                }
+            ),
+            "what_past_experience": forms.Textarea(
+                attrs={
+                    "class": "materialize-textarea",
+                    "placeholder": "Insert answer here...",
+                    "data-length": 1000,
+                    "style": "padding-top: 38px;",
+                }
+            ),
             "why_participate": forms.Textarea(
                 attrs={
                     "class": "materialize-textarea",
@@ -159,14 +204,14 @@ class ApplicationForm(forms.ModelForm):
             "what_technical_experience": forms.Textarea(
                 attrs={
                     "class": "materialize-textarea",
-                    "placeholder": "My technical experience with software are...",
+                    "placeholder": "My technical experience with software and hardware are...",
                     "data-length": 1000,
                 }
             ),
-            "what_past_experience": forms.Textarea(
+            "what_role_in_team_setting": forms.Textarea(
                 attrs={
                     "class": "materialize-textarea",
-                    "placeholder": "My past experiences are...",
+                    "placeholder": "I take on the role of...",
                     "data-length": 1000,
                 }
             ),
@@ -192,6 +237,12 @@ class ApplicationForm(forms.ModelForm):
             raise forms.ValidationError(
                 _("User has already submitted an application."), code="invalid"
             )
+        self.clean_age()
+        self.handle_free_response_pronouns()
+        self.handle_free_response_gender()
+        self.handle_free_response_sexual_identity()
+        self.handle_free_response_dietary_restrictions()
+        self.handle_highest_formal_education()
         return cleaned_data
 
     def clean_age(self):
@@ -205,6 +256,74 @@ class ApplicationForm(forms.ModelForm):
                 code="user_is_too_young_to_participate",
             )
         return user_age
+
+    def handle_free_response_pronouns(self):
+        user_pronouns = self.cleaned_data["pronouns"]
+        user_free_response_pronouns = self.cleaned_data["free_response_pronouns"]
+        if user_pronouns == "other" and not user_free_response_pronouns:
+            raise forms.ValidationError(
+                _(
+                    "Since you've selected 'Other' for pronouns, please state what pronouns you go by."
+                ),
+                code="free_response_pronouns",
+            )
+
+    def handle_free_response_gender(self):
+        user_gender = self.cleaned_data["gender"]
+        user_free_response_gender = self.cleaned_data["free_response_gender"]
+        if user_gender == "prefer-to-self-describe" and not user_free_response_gender:
+            raise forms.ValidationError(
+                _(
+                    "Since you've selected 'Prefer to Self Describe' for gender, please state how you would like to be addressed"
+                ),
+                code="free_response_gender",
+            )
+
+    def handle_free_response_dietary_restrictions(self):
+        user_dietary_restrictions = self.cleaned_data["dietary_restrictions"]
+        user_free_response_dietary_restrictions = self.cleaned_data[
+            "free_response_dietary_restrictions"
+        ]
+        if (
+            user_dietary_restrictions == "allergies"
+            or user_dietary_restrictions == "other"
+        ) and not user_free_response_dietary_restrictions:
+            raise forms.ValidationError(
+                _("Please provide more information about your dietary restrictions."),
+                code="free_response_dietary_restrictions",
+            )
+
+    def handle_free_response_sexual_identity(self):
+        user_sexual_identity = self.cleaned_data["sexual_identity"]
+        user_free_response_sexual_identity = self.cleaned_data[
+            "free_response_sexual_identity"
+        ]
+        if (
+            user_sexual_identity == "different-identity"
+            and not user_free_response_sexual_identity
+        ):
+            raise forms.ValidationError(
+                _(
+                    "You've selected 'Different Identity', please state how you would like to identify yourself"
+                ),
+                code="free_response_sexual_identity",
+            )
+
+    def handle_highest_formal_education(self):
+        user_highest_formal_education = self.cleaned_data["highest_formal_education"]
+        user_free_response_highest_formal_education = self.cleaned_data[
+            "free_response_highest_formal_education"
+        ]
+        if (
+            user_highest_formal_education == "other"
+            and not user_free_response_highest_formal_education
+        ):
+            raise forms.ValidationError(
+                _(
+                    "You've selected 'Other' for highest formal education, please elaborate in the corresponding field."
+                ),
+                code="free_response_highest_formal_education",
+            )
 
     def save(self, commit=True):
         self.instance = super().save(commit=False)
