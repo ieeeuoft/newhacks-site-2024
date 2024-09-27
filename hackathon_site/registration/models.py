@@ -31,10 +31,20 @@ class Application(models.Model):
     PRONOUN_CHOICES = [
         (None, ""),
         ("he-him", "he/him"),
+        ("he-they", "he/they"),
         ("she-her", "she/her"),
+        ("she-they", "she/they"),
         ("they-them", "they/them"),
         ("other", "other"),
         ("no-answer", "prefer not to answer"),
+    ]
+    GENDER_CHOICES = [
+        (None, ""),
+        ("man", "Man"),
+        ("woman", "Woman"),
+        ("non-binary", "Non-Binary"),
+        ("prefer-to-self-describe", "Prefer to Self-Describe"),
+        ("prefer-to-not-answer", "Prefer to not Answer"),
     ]
 
     ETHNICITY_CHOICES = [
@@ -48,22 +58,80 @@ class Application(models.Model):
         ("no-answer", "Prefer not to answer"),
     ]
 
+    TSHIRT_SIZE_CHOICES = [(None, ""), ("S", "S"), ("M", "M"), ("L", "L"), ("XL", "XL")]
+
+    DIETARY_RESTRICTIONS_CHOICES = [
+        (None, ""),
+        ("none", "None"),
+        ("halal", "Halal"),
+        ("vegetarian", "Vegetarian"),
+        ("vegan", "Vegan"),
+        ("celiac-disease", "Celiac Disease"),
+        ("allergies", "Allergies"),
+        ("kosher", "Kosher"),
+        ("gluten-free", "Gluten Free"),
+        ("other", "Other"),
+    ]
+
+    UNDER_REPRESENTED_GROUP_CHOICES = [
+        (None, ""),
+        ("yes", "Yes"),
+        ("no", "No"),
+        ("unsure", "Unsure"),
+    ]
+
+    SEXUAL_IDENTITY_CHOICES = [
+        (None, ""),
+        ("heterosexual-or-straight", "Heterosexual or straight"),
+        ("gay-or-lesbian", "Gay or lesbian"),
+        ("bisexual", "Bisexual"),
+        ("different-identity", "Different Identity"),
+        ("prefer-to-not-answer", "Prefer to not Answer"),
+    ]
+
+    HIGHEST_FORMER_EDUCATION_CHOICES = [
+        (None, ""),
+        ("less-than-secondary-or-high-school", "Less than Secondary / High School"),
+        ("secondary-or-high-school", "Secondary / High School"),
+        (
+            "post-secondary-2-years",
+            "2 year Undergraduate University or community college program",
+        ),
+        ("post-secondary-3-or-more-years", "3+ year Undergraduate University program"),
+        (
+            "graduate-university",
+            "Graduate University (Masters, Professional, Doctoral, etc)",
+        ),
+        ("code-school-or-bootcamp", "Code School / Bootcamp"),
+        (
+            "vocational-or-trades-or-apprenticeship",
+            "Other Vocational or Trade Program or Apprenticeship",
+        ),
+        ("other", "Other"),
+        ("prefer-to-not-answer", "Prefer to not answer"),
+    ]
+
     STUDY_LEVEL_CHOICES = [
         (None, ""),
-        ("less-than-secondary", "Less than Secondary / High School"),
-        ("secondary", "Secondary / High School"),
+        # ("less-than-secondary", "Less than Secondary / High School"),
+        # ("secondary", "Secondary / High School"),
+        # (
+        #     "undergraduate-2-year",
+        #     "Undergraduate University (2 year - community college or similar)",
+        # ),
+        # ("undergraduate-3-year", "Undergraduate University (3+ year)"),
         (
-            "undergraduate-2-year",
-            "Undergraduate University (2 year - community college or similar)",
+            "post-secondary-2-years",
+            "2 year Undergraduate University or community college program",
         ),
-        ("undergraduate-3-year", "Undergraduate University (3+ year)"),
+        ("post-secondary-3-or-more-years", "3+ year Undergraduate University program"),
         ("graduate", "Graduate University (Masters, Professional, Doctoral, etc)"),
-        ("code-school", "Code School / Bootcamp"),
-        ("vocational", "Other Vocational / Trade Program or Apprenticeship"),
-        ("post-doctorate", "Post Doctorate"),
+        # ("code-school", "Code School / Bootcamp"),
+        # ("vocational", "Other Vocational / Trade Program or Apprenticeship"),
+        # ("post-doctorate", "Post Doctorate"),
         ("other", "Other"),
-        ("not-a-student", "I’m not currently a student"),
-        ("no-answer", "Prefer not to answer"),
+        # ("not-a-student", "I’m not currently a student"),
+        # ("no-answer", "Prefer not to answer"),
     ]
 
     AGE_CHOICES = [
@@ -74,6 +142,25 @@ class Application(models.Model):
         (21, "21"),
         (22, "22"),
         (23, "22+"),
+    ]
+
+    HACKATHON_NUMBER_CHOICES = [
+        (None, ""),
+        ("0", "0"),
+        ("1", "1"),
+        ("2", "2"),
+        ("3", "3"),
+        ("4", "4"),
+        ("5 or more", "5 or more"),
+    ]
+    REFERRAL_CHOICES = [
+        (None, ""),
+        ("instagram", "Instagram"),
+        ("in class/from a professor", "In Class/From a professor"),
+        ("discord", "Discord"),
+        ("email", "Email"),
+        ("from a friend", "From a friend"),
+        ("other", "Other"),
     ]
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=False)
@@ -87,7 +174,28 @@ class Application(models.Model):
     pronouns = models.CharField(
         max_length=50, choices=PRONOUN_CHOICES, null=False, default=""
     )
-    ethnicity = models.CharField(max_length=50, choices=ETHNICITY_CHOICES, null=False)
+    free_response_pronouns = models.TextField(
+        max_length=200,
+        null=True,
+        blank=True,
+        default="",
+        help_text="If selected 'Other', please specify",
+    )
+    gender = models.CharField(
+        max_length=50, choices=GENDER_CHOICES, null=False, default=""
+    )
+
+    free_response_gender = models.TextField(
+        max_length=200,
+        null=True,
+        blank=True,
+        default="",
+        help_text="If you selected 'Prefer to Self-Describe', please specify.",
+    )
+    ethnicity = models.CharField(
+        max_length=50, choices=ETHNICITY_CHOICES, null=False, blank=True, default=""
+    )
+
     phone_number = models.CharField(
         max_length=20,
         null=False,
@@ -100,10 +208,67 @@ class Application(models.Model):
     )
     city = models.CharField(max_length=255, null=False)
     country = models.CharField(max_length=255, null=False)
-    school = models.CharField(max_length=255, null=False,)
+
+    tshirt_size = models.CharField(
+        max_length=50, choices=TSHIRT_SIZE_CHOICES, null=False, default=""
+    )
+
+    dietary_restrictions = models.CharField(
+        max_length=50, choices=DIETARY_RESTRICTIONS_CHOICES, null=False, default=""
+    )
+
+    free_response_dietary_restrictions = models.TextField(
+        max_length=200,
+        null=True,
+        blank=True,
+        default="",
+        help_text="If you selected 'Allergies' or 'Other', please specify.",
+    )
+
+    under_represented_group = models.CharField(
+        max_length=50,
+        choices=UNDER_REPRESENTED_GROUP_CHOICES,
+        null=False,
+        default="",
+        help_text="Are you in an underrepresented group in tech?",
+    )
+
+    sexual_identity = models.CharField(
+        max_length=50,
+        choices=SEXUAL_IDENTITY_CHOICES,
+        null=False,
+        default="",
+        help_text="Do you consider yourself to be any of the following?",
+    )
+
+    free_response_sexual_identity = models.TextField(
+        max_length=200,
+        null=True,
+        blank=True,
+        default="",
+        help_text="If you selected 'Different Identity', please specify.",
+    )
+
+    highest_formal_education = models.CharField(
+        max_length=50,
+        choices=HIGHEST_FORMER_EDUCATION_CHOICES,
+        null=False,
+        default="",
+        help_text="What is your highest level of education completed?",
+    )
+
+    free_response_highest_formal_education = models.TextField(
+        max_length=200,
+        null=True,
+        blank=True,
+        default="",
+        help_text="If you selected 'Other' for education, please specify.",
+    )
+
+    school = models.CharField(max_length=255, null=False)
     study_level = models.CharField(
         max_length=50,
-        help_text="Level of Study",
+        help_text="Current level of study",
         choices=STUDY_LEVEL_CHOICES,
         null=False,
     )
@@ -139,6 +304,24 @@ class Application(models.Model):
     devpost = models.URLField(
         max_length=200, help_text="Devpost Profile (Optional)", null=True, blank=True
     )
+    how_many_hackathons = models.TextField(
+        null=False,
+        default="",
+        help_text="How many hackathons have you been to?",
+        choices=HACKATHON_NUMBER_CHOICES,
+        max_length=100,
+    )
+    past_hackathon_info = models.TextField(
+        null=False,
+        default="",
+        help_text="If you've been to prior hackathon(s), please indicate the hackathon name, your project name and any prizes you won.",
+        max_length=1000,
+    )
+    what_past_experience = models.TextField(
+        null=False,
+        help_text="If you’ve been to a hackathon, what is your most memorable moment or challenge you faced? How did you overcome it? If not, what excites you most about attending your first hackathon and what do you hope to achieve and experience?",
+        max_length=1000,
+    )
     why_participate = models.TextField(
         null=False,
         help_text="Why do you want to participate in NewHacks?",
@@ -146,13 +329,21 @@ class Application(models.Model):
     )
     what_technical_experience = models.TextField(
         null=False,
-        help_text="What is your technical experience with software?",
+        help_text="What is your technical experience with software and hardware?",
         max_length=1000,
     )
-    what_past_experience = models.TextField(
+    what_role_in_team_setting = models.TextField(
         null=False,
-        help_text="If you’ve been to a hackathon, briefly tell us your experience. If not, describe what you expect to see and experience.",
+        default="",
+        help_text="What role do you typically take on in a team setting? Give an example of how you contributed to team success.",
         max_length=1000,
+    )
+    discovery_method = models.TextField(
+        null=False,
+        default="",
+        help_text="How did you hear about NewHacks?",
+        choices=REFERRAL_CHOICES,
+        max_length=100,
     )
     conduct_agree = models.BooleanField(
         help_text="I have read and agree to the "
