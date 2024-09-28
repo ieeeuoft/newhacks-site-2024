@@ -356,7 +356,7 @@ SIGN_IN_TIMES = [
 ]
 
 # Registration user requirements
-MINIMUM_AGE = 18
+MINIMUM_AGE = 17
 
 # Registration settings
 ACCOUNT_ACTIVATION_DAYS = 7
