@@ -136,6 +136,7 @@ class Application(models.Model):
 
     AGE_CHOICES = [
         (None, ""),
+        (17, "17"),
         (18, "18"),
         (19, "19"),
         (20, "20"),
