@@ -114,21 +114,25 @@ class ApplicationInline(admin.TabularInline):
         "conduct_agree",
         "data_agree",
     )
+
     readonly_fields = (
+        "get_reviewer_name",
+        "get_decision_sent_date",
         "get_user_full_name",
+        "age",
         "study_level",
         "school",
         "graduation_year",
         "linkedin",
         "github",
         "devpost",
+        "get_resume_link",
+        "how_many_hackathons",
+        "past_hackathon_info",
+        "what_past_experience",
         "why_participate",
         "what_technical_experience",
-        "what_past_experience",
-        "get_resume_link",
-        "age",
-        "get_reviewer_name",
-        "get_decision_sent_date",
+        "what_role_in_team_setting",
     )
 
     def get_user_full_name(self, obj):
@@ -377,9 +381,7 @@ class TeamReviewAdmin(admin.ModelAdmin):
             active_reviewers.add(request.user.id)
 
             # Update the active reviewers cache set, 20 minute TTL
-            cache.set(
-                active_reviewers_set_cache_key, active_reviewers, timeout=60 * 20,
-            )
+            cache.set(active_reviewers_set_cache_key, active_reviewers, timeout=60 * 20)
 
         team_review_page = reverse(
             "admin:review_teamreview_change", kwargs={"object_id": team.id}
