@@ -111,6 +111,7 @@ class ApplicationInline(admin.TabularInline):
         "ethnicity",
         "phone_number",
         "resume",
+        "rsvp",
         "conduct_agree",
         "data_agree",
     )
