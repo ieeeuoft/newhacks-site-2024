@@ -104,11 +104,11 @@ class CurrentProfileSerializer(ProfileSerializer):
         )
         if not is_test_user:
             try:
-                application = Application.objects.get(user=current_user)
-                # if not rsvp_status:
-                #     raise serializers.ValidationError(
-                #         "User has not RSVP'd to the hackathon. Please RSVP to access the Hardware Signout Site"
-                #     )
+                rsvp_status = Application.objects.get(user=current_user).rsvp
+                if not rsvp_status and settings.RSVP:
+                    raise serializers.ValidationError(
+                        "User has not RSVP'd to the hackathon. Please RSVP to access the Hardware Signout Site"
+                    )
             except Application.DoesNotExist:
                 raise serializers.ValidationError(
                     "User has not completed their application to the hackathon. Please do so to access the Hardware Signout Site"

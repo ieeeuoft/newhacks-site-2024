@@ -47,9 +47,14 @@ class IndexView(TemplateView):
 
 
 class DashboardView(LoginRequiredMixin, FormView):
-    template_name = "event/dashboard_base.html"
     # Form submits should take the user back to the dashboard
     success_url = reverse_lazy("event:dashboard")
+
+    # TODO: QR Scanner CODE
+    def get_template_names(self):
+        # if self.request.user.is_staff:
+        #     return "event/dashboard_admin.html"
+        return "event/dashboard_base.html"
 
     def get_form(self, form_class=None):
         """
@@ -117,6 +122,19 @@ class DashboardView(LoginRequiredMixin, FormView):
             review = self.request.user.application.review
 
             context["review"] = review
+            if settings.RSVP:
+                context[
+                    "rsvp_passed"
+                ] = _now().date() > review.decision_sent_date + timedelta(
+                    days=settings.RSVP_DAYS
+                )
+                rsvp_deadline = datetime.combine(
+                    review.decision_sent_date + timedelta(days=settings.RSVP_DAYS),
+                    datetime.max.time(),  # 11:59PM
+                )
+                context["rsvp_deadline"] = settings.TZ_INFO.localize(
+                    rsvp_deadline
+                ).strftime("%B %-d, %Y, %-I:%M %p %Z")
         else:
             context["review"] = None
 
@@ -136,6 +154,12 @@ class DashboardView(LoginRequiredMixin, FormView):
             context["status"] = "Application Complete"
         elif (
             hasattr(self.request.user.application, "review")
+            and self.request.user.application.review.status == "Accepted"
+            and self.request.user.application.rsvp is None
+        ):
+            context["status"] = "Accepted, awaiting RSVP"
+        elif (
+            hasattr(self.request.user.application, "review")
             and self.request.user.application.review.status == "Waitlisted"
         ):
             context["status"] = "Waitlisted"
@@ -144,6 +168,10 @@ class DashboardView(LoginRequiredMixin, FormView):
             and self.request.user.application.review.status == "Rejected"
         ):
             context["status"] = "Rejected"
+        elif self.request.user.application.rsvp:
+            context["status"] = "Will Attend (Accepted)"
+        elif not self.request.user.application.rsvp:
+            context["status"] = "Cannot Attend (Declined)"
         else:
             context["status"] = "Unknown"
 
