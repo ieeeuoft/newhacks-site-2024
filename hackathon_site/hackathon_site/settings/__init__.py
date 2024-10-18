@@ -375,7 +375,7 @@ FINAL_REVIEW_RESPONSE_DATE = REGISTRATION_CLOSE_DATE + timedelta(days=7)
 
 # Links
 # TODO: NEED TO REPLACE THIS WITH NEW LINK (for acceptance email)
-PARTICIPANT_PACKAGE_LINK = "https://docs.google.com/document/d/1AkinPac_KS9_wA9P7H-7wOBfJ5xgIciIGwpU3D1UGu0/edit?usp=sharing"
+PARTICIPANT_PACKAGE_LINK = "https://docs.google.com/document/d/1AmgarLDeE8e8oirdG-uY-fdyOwfUomhA4jjU6o-Q2MM/edit?usp=sharing"
 
 # Note this is in the form (chat_room_name, chat_room_link)
 # Chat room name is such as the following: Slack, Discord
@@ -384,6 +384,7 @@ CHAT_ROOM = ("Discord", "https://discord.gg/cqW93CMu")
 
 # Enable/Disable certain Features
 TEAMS = True
+RSVP = True
 
 # HSS Testing
 TEST_USER_GROUP = "HSS Test Users"

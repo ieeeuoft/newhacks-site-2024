@@ -369,3 +369,50 @@ class JoinTeamForm(forms.Form):
             raise forms.ValidationError(_(f"Team {team_code} is full."))
 
         return team_code
+
+
+class SignInForm(forms.Form):
+    email = forms.EmailField()
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.label_suffix = ""
+        self.error_css_class = "invalid"
+
+    def clean(self):
+        if not is_hackathon_happening():
+            raise forms.ValidationError(
+                _("You cannot sign in outside of the hackathon period."),
+                code="invalid_sign_in_time",
+            )
+
+        return super().clean()
+
+    def clean_email(self):
+        email = self.cleaned_data["email"]
+
+        try:
+            user = User.objects.get(email__exact=email)
+            application = Application.objects.get(user__exact=user)
+            review = Review.objects.get(application__exact=application)
+            if review.status == "Accepted":
+                if settings.RSVP and application.rsvp is None:
+                    raise forms.ValidationError(
+                        _(f"User {email} has not RSVP'd to the hackathon")
+                    )
+            else:
+                raise forms.ValidationError(
+                    _(
+                        f"User {email} has not been Accepted to attend {settings.HACKATHON_NAME}"
+                    )
+                )
+        except User.DoesNotExist:
+            raise forms.ValidationError(_(f"User {email} does not exist."))
+        except Application.DoesNotExist:
+            raise forms.ValidationError(
+                _(f"User {email} has not applied to {settings.HACKATHON_NAME}")
+            )
+        except Exception as e:
+            raise e
+
+        return email
