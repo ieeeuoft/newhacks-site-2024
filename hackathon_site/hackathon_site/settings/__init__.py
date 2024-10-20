@@ -380,7 +380,7 @@ PARTICIPANT_PACKAGE_LINK = "https://docs.google.com/document/d/1AmgarLDeE8e8oird
 # Note this is in the form (chat_room_name, chat_room_link)
 # Chat room name is such as the following: Slack, Discord
 # TODO: NEED TO REPLACE THIS WITH NEW LINK (for acceptance email)
-CHAT_ROOM = ("Discord", "https://discord.gg/cqW93CMu")
+CHAT_ROOM = ("Discord", "https://discord.gg/TQZ7aCs24r")
 
 # Enable/Disable certain Features
 TEAMS = True
