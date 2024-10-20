@@ -322,7 +322,7 @@ EVENT_END_DATE = datetime(2024, 10, 27, 17, 0, 0, tzinfo=TZ_INFO)
 HARDWARE_SIGN_OUT_START_DATE = datetime(2024, 10, 28, 23, 59, 0, tzinfo=TZ_INFO)
 HARDWARE_SIGN_OUT_END_DATE = EVENT_END_DATE
 
-RSVP_DAYS = 10
+RSVP_DAYS = 2
 
 # sign in times must be between EVENT_START_DATE and EVENT_END_DATE and in chronological order
 # the number of sign in times MUST MATCH the number of columns in UserActivityTable
