@@ -374,12 +374,10 @@ WAITLISTED_ACCEPTANCE_START_TIME = EVENT_START_DATE + timedelta(hours=1)
 FINAL_REVIEW_RESPONSE_DATE = REGISTRATION_CLOSE_DATE + timedelta(days=7)
 
 # Links
-# TODO: NEED TO REPLACE THIS WITH NEW LINK (for acceptance email)
 PARTICIPANT_PACKAGE_LINK = "https://docs.google.com/document/d/1AmgarLDeE8e8oirdG-uY-fdyOwfUomhA4jjU6o-Q2MM/edit?usp=sharing"
 
 # Note this is in the form (chat_room_name, chat_room_link)
 # Chat room name is such as the following: Slack, Discord
-# TODO: NEED TO REPLACE THIS WITH NEW LINK (for acceptance email)
 CHAT_ROOM = ("Discord", "https://discord.gg/TQZ7aCs24r")
 
 # Enable/Disable certain Features
